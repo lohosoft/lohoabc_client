@@ -1,3 +1,4 @@
+console.log("lohoabc client immutable with redux version")
 console.log("index.js");
 require("./css/style.css");
 import React from "react";
