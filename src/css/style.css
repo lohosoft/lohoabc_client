@@ -56,8 +56,8 @@ body {
 	color: green;
 }
 .testWordDiv span {
-	padding-left: 3px;
-	padding-right: 3px;
+	padding-left: 3%;
+	padding-right: 3%;
 }
 .testCountDownDiv {
 	margin-top: 10%;

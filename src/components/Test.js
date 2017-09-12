@@ -73,10 +73,13 @@ class Test extends React.Component {
 	render() {
 		// return <p>Testing</p>;
 		if (!this.showKeyboard) {
+			let testWordHtml = this.props.word.split('').map(letter => {
+				return <span>{letter}</span>;
+			});
 			return (
 				<div className="testDiv">
 					<div className="testWordDiv">
-						<p>{this.props.word}</p>
+						<p>{testWordHtml}</p>
 					</div>
 					<div className="testCountDownDiv">
 						<p id="countDownP">{this.countDown}</p>
