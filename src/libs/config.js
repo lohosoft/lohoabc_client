@@ -15,9 +15,11 @@ exports.initialState = {
 	//[{index:33,word:apple,score:90}]
 	testHis: [{}]
 };
-// logger mark 
-exports.dev = true;
-
+// logger mark
+const dev = true;
+if (!dev) {
+	console.log = function() {};
+}
 exports.ShowOptionsDiv = "ShowOptionsDiv";
 exports.ShowTestDiv = "ShowTestDiv";
 exports.ShowHelloDiv = "ShowHelloDiv";

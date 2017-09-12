@@ -4,9 +4,12 @@ import thunk from "redux-thunk";
 import Config from "./config.js";
 import Reducers from "./reducers.js";
 
-// const middleware = applyMiddleware(thunk, createLogger());
-// for prod
-const middleware = applyMiddleware(thunk);
+let middleware;
+if (Config.dev) {
+	middleware = applyMiddleware(thunk, createLogger());
+} else {
+	middleware = applyMiddleware(thunk);
+}
 
 const initialState = Config.initialState;
 const store = createStore(Reducers, initialState, middleware);

@@ -8,6 +8,16 @@ import * as qwest from "qwest";
 
 export default function reducer(state, action) {
 	switch (action.type) {
+		case "DesignTestDiv": {
+			let state = {
+				...state,
+				optioning: false,
+				testing: true,
+				fetching: false,
+				testWord: "hello"
+			};
+			return state;
+		}
 		case Config.ClickOnOptionImg: {
 			let target = action.payload;
 			let index = target.id;

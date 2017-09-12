@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { responsiveVoice } from "../responsivevoice.js";
-import Store from "../store.js";
-import Config from "../config.js";
+import { responsiveVoice } from "../libs/responsivevoice.js";
+import Store from "../libs/store.js";
+import Config from "../libs/config.js";
 
 class Test extends React.Component {
 	constructor(props) {

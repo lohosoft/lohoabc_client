@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Config from "../config.js";
+import Config from "../libs/config.js";
 
 class Options extends React.Component {
 	componentDidMount() {}
