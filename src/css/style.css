@@ -53,10 +53,10 @@ body {
 
 .testWordDiv p {
 	font-size: 3em;
-	color: green;
+	color: #6ab630;
 }
 .testWordDiv span {
-	padding-left: 3%;
+	padding-left: 3 %;
 	padding-right: 3%;
 }
 .testKeyboard {
@@ -70,12 +70,12 @@ body {
 	padding-right: 5%;
 	background-color: white;
 	font-size: 4em;
-	color: green;
+	color: #6ab630;
 	margin-left: 10%;
 	margin-right: 10%;
 	margin-top: 10%;
 	margin-bottom: 10%;
-	border-radius:5px;
+	border-radius: 5px;
 }
 .testWordImgDiv {
 	width: 100%;
@@ -85,13 +85,24 @@ body {
 	align-items: center;
 	flex-direction: column;
 }
-
 .testImg {
 	background-color: white;
 
 	padding: 3%;
 	width: 80%;
 	height: auto;
+}
+.testFinishDiv {
+	width: 100%;
+	height: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+.testFinishDiv p {
+	font-size: 6em;
+	color: white;
 }
 
 /*==================================*/

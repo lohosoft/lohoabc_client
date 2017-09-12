@@ -10,6 +10,7 @@ class Test extends React.Component {
 		super(props);
 		this.showKeyboard = false;
 		this.showWordImg = true;
+		this.showCorrectSign = false;
 		// use this mark to deside what to display word
 		// at beginning  mark = 0 , show all letter of word
 		// click on image will -1 on mark , and letter at end of work become bottom line
@@ -29,6 +30,9 @@ class Test extends React.Component {
 			"test for current word is finising,need save data into store.state : ",
 			this.testLetterHis
 		);
+		this.showCorrectSign = true;
+		this.forceUpdate();
+		//=====================.  go next after timeout 2 second ==============. TODO
 	}
 	clickOnLetterOfTestKeyword(target) {
 		// judge intput if correct , right show it in green , wrong show it in red
@@ -112,6 +116,33 @@ class Test extends React.Component {
 				this.props.word[targetLetterIndexOfWord]
 			);
 			console.log("letter of keyboard is : ", letterOfKeyBoard);
+
+			// show keyboard for testing word
+			return (
+				<div className="testDiv">
+					<div className="testWordDiv">
+						<p>
+							{testShowWord.map(letter => {
+								return <span>{letter}</span>;
+							})}
+						</p>
+					</div>
+					<div className="testKeyboard">
+						{letterOfKeyBoard.map(letter => {
+							return (
+								<span
+									onClick={e =>
+										this.clickOnLetterOfTestKeyword(
+											e.target
+										)}
+								>
+									{letter}
+								</span>
+							);
+						})}
+					</div>
+				</div>
+			);
 		}
 
 		if (this.showWordImg) {
@@ -138,8 +169,9 @@ class Test extends React.Component {
 					</div>
 				</div>
 			);
-		} else {
-			// show keyboard for testing word
+		}
+
+		if (this.showCorrectSign) {
 			return (
 				<div className="testDiv">
 					<div className="testWordDiv">
@@ -149,19 +181,8 @@ class Test extends React.Component {
 							})}
 						</p>
 					</div>
-					<div className="testKeyboard">
-						{letterOfKeyBoard.map(letter => {
-							return (
-								<span
-									onClick={e =>
-										this.clickOnLetterOfTestKeyword(
-											e.target
-										)}
-								>
-									{letter}
-								</span>
-							);
-						})}
+					<div className="testFinishDiv">
+						<p>Good!</p>
 					</div>
 				</div>
 			);
