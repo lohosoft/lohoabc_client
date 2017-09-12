@@ -37,3 +37,4 @@ exports.GuessWordImgTimout = 1000;
 exports.AddNewImgData = "AddNewImgData";
 // click event
 exports.ClickOnOptionImg = "ClickOnOptionImg";
+exports.optionLetterLimitTemporary = 4;

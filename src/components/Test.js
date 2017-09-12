@@ -3,64 +3,65 @@ import { connect } from "react-redux";
 import { responsiveVoice } from "../libs/responsivevoice.js";
 import Store from "../libs/store.js";
 import Config from "../libs/config.js";
+import Utils from "../libs/utils.js";
 
 class Test extends React.Component {
 	constructor(props) {
 		super(props);
 		this.showKeyboard = false;
+		this.showWordImg = true;
 		// use this mark to deside what to display word
 		// at beginning  mark = 0 , show all letter of word
 		// click on image will -1 on mark , and letter at end of work become bottom line
 		// click on letter of keyboard will + 1 on mark ,and letter at begin of shows if answer is correct
 		this.letterMark = 0;
+		this.testLetterHis = [];
 		this.word = this.props.word;
 		this.clickOnTestWordImg = this.clickOnTestWordImg.bind(this);
 		this.clickOnLetterOfTestKeyword = this.clickOnLetterOfTestKeyword.bind(
 			this
 		);
-		this.makeOptionLettersForCurrentCorrectLetter = this.makeOptionLettersForCurrentCorrectLetter.bind(
-			this
-		);
 	}
 
 	componentDidMount() {}
-
-	makeOptionLettersForCurrentCorrectLetter(letter) {
-		let res = [];
-		// =======================  TODO
-		// given a ltter make various number other letter to make an array as options letter for testing
-
-
-		res.push(letter);
-		return res;
+	finishTest() {
+		console.log(
+			"test for current word is finising,need save data into store.state : ",
+			this.testLetterHis
+		);
 	}
 	clickOnLetterOfTestKeyword(target) {
-		console.log("clicke on ", target);
 		// judge intput if correct , right show it in green , wrong show it in red
 		// this.answer += target.innerHTML;
 		let answerLetter = target.innerHTML;
+		let correctLetter = this.props.word[
+			this.props.word.length - this.letterMark
+		];
+		console.log("clicke on ", answerLetter);
+		console.log("correct letter is ", correctLetter);
+		this.testLetterHis.push({
+			target: correctLetter,
+			answer: answerLetter
+		});
 
-		if (answerLetter === this.props.word[this.letterMark]) {
-			// if current letter is correct
-			// remove a '_'
-			// this.answerBottomLine = this.answerBottomLine.slice(0, -1);
-			// // add correct letter
-			// this.answerInput += answerLetter;
-			// // compare answer to word
-			// this.answer = this.answerInput + this.answerBottomLine;
-			if (this.answer === this.props.word) {
-				console.log("answer corrent , need show next options page");
-				Store.dispatch({ type: Config.ShowOptionsDiv });
-			} else {
-				// not finish yet ,netx letter
-				this.letterMark += 1;
+		// ===================================================. TODO
+		// notice store to save click letter history into sate
+
+		if (answerLetter === correctLetter) {
+			console.log("current lettermakr is : ", this.letterMark);
+
+			this.letterMark -= 1;
+			this.forceUpdate();
+
+			if (this.letterMark === 0) {
+				// all correnct do next
+				console.log(" correct all letter , got pass");
+				this.showKeyboard = false;
+				this.finishTest();
 			}
 		} else {
-			console.log(
-				"input letter not correct or finished,maybe show something"
-			);
+			console.log("wrong letter pick,do nothing yet");
 		}
-		this.forceUpdate();
 	}
 	clickOnTestWordImg() {
 		console.log("click on test word img ", this.props.word);
@@ -76,6 +77,7 @@ class Test extends React.Component {
 			this.letterMark
 		);
 		if (this.letterMark === this.props.word.length) {
+			this.showWordImg = false;
 			this.showKeyboard = true;
 		}
 		this.forceUpdate();
@@ -106,13 +108,13 @@ class Test extends React.Component {
 				this.props.word[targetLetterIndexOfWord]
 			);
 
-			letterOfKeyBoard = this.makeOptionLettersForCurrentCorrectLetter(
+			letterOfKeyBoard = Utils.makeOptionLettersForCurrentCorrectLetter(
 				this.props.word[targetLetterIndexOfWord]
 			);
 			console.log("letter of keyboard is : ", letterOfKeyBoard);
 		}
 
-		if (!this.showKeyboard) {
+		if (this.showWordImg) {
 			// show image for learning word
 			return (
 				<div className="testDiv">
@@ -149,7 +151,16 @@ class Test extends React.Component {
 					</div>
 					<div className="testKeyboard">
 						{letterOfKeyBoard.map(letter => {
-							return <span>{letter}</span>;
+							return (
+								<span
+									onClick={e =>
+										this.clickOnLetterOfTestKeyword(
+											e.target
+										)}
+								>
+									{letter}
+								</span>
+							);
 						})}
 					</div>
 				</div>
@@ -167,8 +178,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-	return {
-		// getClick: () =>{}
-	};
+	return {};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Test);
