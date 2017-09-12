@@ -58,14 +58,13 @@ function shuffle(array) {
 	return array;
 }
 function makeOptionLettersForCurrentCorrectLetter(letter) {
-	let options = [];
 	let res = [];
 	// =======================  TODO
 	// given a ltter make various number other letter to make an array as options letter for testing
 	// now just get 3 other random number
 	for (var i = 0; i < Config.optionLetterLimitTemporary - 1; i++) {
 		let optionLetter = randLetter();
-		if (options.indexOf(optionLetter) === -1 && optionLetter !== letter) {
+		if (res.indexOf(optionLetter) === -1 && optionLetter !== letter) {
 			// if random int existed in options or equal to target , re make agin
 			res.push(optionLetter);
 		} else {
