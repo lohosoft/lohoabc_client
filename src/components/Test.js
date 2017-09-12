@@ -122,8 +122,8 @@ class Test extends React.Component {
 				<div className="testDiv">
 					<div className="testWordDiv">
 						<p>
-							{testShowWord.map(letter => {
-								return <span>{letter}</span>;
+							{testShowWord.map((letter, i) => {
+								return <span key={i}>{letter}</span>;
 							})}
 						</p>
 					</div>
@@ -151,8 +151,8 @@ class Test extends React.Component {
 				<div className="testDiv">
 					<div className="testWordDiv">
 						<p>
-							{testShowWord.map(letter => {
-								return <span>{letter}</span>;
+							{testShowWord.map((letter, i) => {
+								return <span key={i}>{letter}</span>;
 							})}
 						</p>
 					</div>
@@ -176,8 +176,8 @@ class Test extends React.Component {
 				<div className="testDiv">
 					<div className="testWordDiv">
 						<p>
-							{testShowWord.map(letter => {
-								return <span>{letter}</span>;
+							{testShowWord.map((letter, i) => {
+								return <span key={i}>{letter}</span>;
 							})}
 						</p>
 					</div>
