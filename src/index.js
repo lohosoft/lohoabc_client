@@ -3,10 +3,10 @@ require("./css/style.css");
 import React from "react";
 import ReactDom from "react-dom";
 import { Provider } from "react-redux";
-import Config from "./config.js";
+import Config from "./libs/config.js";
 import App from "./components/App.js";
-import Store from "./store.js";
-import Handle from "./handle.js";
+import Store from "./libs/store.js";
+import Handle from "./libs/handle.js";
 Store.subscribe(() => {
 	console.log("store changed ", Store.getState());
 });

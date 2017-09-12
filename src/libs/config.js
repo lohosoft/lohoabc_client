@@ -15,6 +15,8 @@ exports.initialState = {
 	//[{index:33,word:apple,score:90}]
 	testHis: [{}]
 };
+// logger mark 
+exports.dev = true;
 
 exports.ShowOptionsDiv = "ShowOptionsDiv";
 exports.ShowTestDiv = "ShowTestDiv";
