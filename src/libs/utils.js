@@ -1,12 +1,25 @@
 import Config from "./config.js";
 import Store from "./store.js";
-import MyJaroWinkler from "./my_jaro_winkler.js";
+import myWorker from "./worker.js";
 import * as qwest from "qwest";
 
-const word2index = require("../data/word2index.json");
-// console.log(word2index);
-const LocalWordMap = jsonToMap(JSON.stringify(word2index));
-// console.log(MyJaroWinkler("app", "appple"));
+// demo
+// Utils.getWordTrans("banana", console.log);
+function getWordTrans(word, callback) {
+	myWorker.onmessage = function(e) {
+		console.log("worker back data is : ", e.data);
+		callback(e.data);
+	};
+	myWorker.postMessage({ type: "trans", word: word });
+}
+
+function getNearWords(word, number, callback) {
+	myWorker.onmessage = function(e) {
+		console.log("worker back data is : ", e.data);
+		callback(e.data);
+	};
+	myWorker.postMessage({ type: "near", word: word, number: number });
+}
 
 function mapToJson(map) {
 	return JSON.stringify([...map]);
@@ -79,7 +92,19 @@ function makeOptionLettersForCurrentCorrectLetter(letter) {
 	return res1;
 }
 
+function getRandomInt(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function setScreenHeight() {
+	let height = window.innerHeight;
+	console.log("screen height is ", height);
+	document.getElementById("app").style.height = height + "px";
+}
+exports.getNearWords = getNearWords;
+exports.getWordTrans = getWordTrans;
+exports.setScreenHeight = setScreenHeight;
+exports.getRandomInt = getRandomInt;
 exports.mapToJson = mapToJson;
 exports.jsonToMap = jsonToMap;
-exports.LocalWordMap = LocalWordMap;
 exports.makeOptionLettersForCurrentCorrectLetter = makeOptionLettersForCurrentCorrectLetter;

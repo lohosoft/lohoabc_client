@@ -20,6 +20,8 @@ const dev = true;
 if (!dev) {
 	console.log = function() {};
 }
+
+exports.hasWorker = true;
 exports.ShowOptionsDiv = "ShowOptionsDiv";
 exports.ShowTestDiv = "ShowTestDiv";
 exports.ShowHelloDiv = "ShowHelloDiv";
