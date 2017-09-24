@@ -154,8 +154,9 @@ class Test extends React.Component {
 							})}
 						</p>
 					</div>
-					<p className="testTransP">{this.testWordTrans}</p>
-
+					<div className="testWordTransDiv">
+						<p>{this.testWordTrans}</p>
+					</div>
 					<div className="testKeyboard">
 						{letterOfKeyBoard.map((letter, i) => {
 							return (
@@ -186,8 +187,9 @@ class Test extends React.Component {
 							})}
 						</p>
 					</div>
-					<p className="testTransP">{this.testWordTrans}</p>
-
+					<div className="testWordTransDiv">
+						<p>{this.testWordTrans}</p>
+					</div>
 					<div className="testWordImgDiv">
 						<img
 							className="testImg"

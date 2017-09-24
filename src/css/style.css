@@ -34,7 +34,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 10%;
+    height: 12%;
     width: 100%;
     background-color: white;
     display: flex;
@@ -52,9 +52,20 @@ body {
     padding-right: 3%;
 }
 
-.testTransP {
+.testWordTransDiv {
+    position: fixed;
+    top: 12%;
+    width: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.testWordTransDiv p {
     color: white;
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 .testKeyboard {
