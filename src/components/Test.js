@@ -1,17 +1,28 @@
 import React from "react";
 import { connect } from "react-redux";
-import { responsiveVoice } from "../responsivevoice.js";
-import Store from "../store.js";
-import Config from "../config.js";
+import { responsiveVoice } from "../libs/responsivevoice.js";
+import Store from "../libs/store.js";
+import Config from "../libs/config.js";
+import Utils from "../libs/utils.js";
 
 class Test extends React.Component {
 	constructor(props) {
 		super(props);
+		this.showTestWordLetters = this.props.word.split("");
+		// at init testWordLetters equals showTestWordLetters
+		// but testWordLetters keep static for reffrence to showTestWordLetters
+		this.testWordLetters = this.showTestWordLetters;
+		this.testWordTrans = this.props.trans;
+		this.showLettersNumber = this.showTestWordLetters.length;
 		this.showKeyboard = false;
-		this.answerLetterMark = 0;
-		this.answerInput = "";
-		this.answerBottomLine = "";
-		this.countDown = this.props.word.length;
+		this.showWordImg = true;
+		this.showCorrectSign = false;
+		// how many bottom line need to show ?
+		// don't touch space in phrase
+		this.bottomLineNumber = 0;
+		this.targetLetter;
+		this.testLetterHis = [];
+		this.word = this.props.word;
 		this.clickOnTestWordImg = this.clickOnTestWordImg.bind(this);
 		this.clickOnLetterOfTestKeyword = this.clickOnLetterOfTestKeyword.bind(
 			this
@@ -19,33 +30,67 @@ class Test extends React.Component {
 	}
 
 	componentDidMount() {}
+	finishTest() {
+		console.log(
+			"test for current word is finising,need save data into store.state : ",
+			this.testLetterHis
+		);
+		this.showCorrectSign = true;
+		this.forceUpdate();
+		//=====================.  go next after timeout 2 second ==============. TODO
+		setTimeout(this.nextOptions, 2000);
+	}
+
+	nextOptions() {
+		Store.dispatch({ type: Config.ShowOptionsDiv });
+	}
 	clickOnLetterOfTestKeyword(target) {
-		console.log("clicke on ", target);
 		// judge intput if correct , right show it in green , wrong show it in red
 		// this.answer += target.innerHTML;
 		let answerLetter = target.innerHTML;
 
-		if (answerLetter === this.props.word[this.answerLetterMark]) {
-			// if current letter is correct
-			// remove a '_'
-			this.answerBottomLine = this.answerBottomLine.slice(0, -1);
-			// add correct letter
-			this.answerInput += answerLetter;
-			// compare answer to word
-			this.answer = this.answerInput + this.answerBottomLine;
-			if (this.answer === this.props.word) {
-				console.log("answer corrent , need show next options page");
-				Store.dispatch({ type: Config.ShowOptionsDiv });
+		console.log("clicke on ", answerLetter);
+		console.log("correct letter is ", this.targetLetter);
+
+		// ===================================================. TODO
+		// notice store to save click letter history into state
+
+		// click on right letter need update interface
+		if (answerLetter === this.targetLetter) {
+			let tempArray = [];
+			this.testWordLetters.map((letter, i) => {
+				if (i <= this.showLettersNumber - this.bottomLineNumber) {
+					tempArray.push(letter);
+				} else if (letter === " ") {
+					// meet space , over it go next letter
+					tempArray.push(letter);
+				} else {
+					tempArray.push("_");
+				}
+			});
+
+			this.showTestWordLetters = tempArray;
+
+			console.log("showTestWordLetters is ", this.showTestWordLetters);
+			// this.forceUpdate();
+			this.bottomLineNumber -= 1;
+			if (this.bottomLineNumber === 0) {
+				// all correnct do next
+				console.log(" correct all letter , got pass");
+				this.showKeyboard = false;
+				this.finishTest();
 			} else {
-				// not finish yet ,netx letter
-				this.answerLetterMark += 1;
+				this.forceUpdate();
 			}
 		} else {
-			console.log(
-				"input letter not correct or finished,maybe show something"
-			);
+			// click on wrong letter , record it and do nothing with interface
+			console.log("wrong letter pick,record it");
+			this.testLetterHis.push({
+				target: this.targetLetter,
+				answer: answerLetter
+			});
+			console.log(this.testLetterHis);
 		}
-		this.forceUpdate();
 	}
 	clickOnTestWordImg() {
 		console.log("click on test word img ", this.props.word);
@@ -53,39 +98,102 @@ class Test extends React.Component {
 		// 	rate: 0.7
 		// });
 		responsiveVoice.speak(this.props.word, "US English Female", {
-			rate: 0.7
+			rate: 0.8
 		});
-		if (this.countDown !== 0) {
-			this.countDown -= 1;
-			// just update this page
-			this.forceUpdate();
-		}
-		if (this.countDown === 0) {
-			console.log("need show keyboard");
-			this.showKeyboard = true;
-			for (var i = this.props.word.length - 1; i >= 0; i--) {
-				this.answerBottomLine += "_";
-				this.answer = this.answerInput + this.answerBottomLine;
+
+		this.bottomLineNumber += 1;
+		console.log("bottomLineNumber is ", this.bottomLineNumber);
+
+		// edit showTestWordLetters to display
+		let tempArray = [];
+		this.testWordLetters.map((letter, i) => {
+			if (i < this.showLettersNumber - this.bottomLineNumber) {
+				tempArray.push(letter);
+			} else if (letter === " ") {
+				tempArray.push(letter);
+			} else {
+				tempArray.push("_");
 			}
-			this.forceUpdate();
+		});
+
+		this.showTestWordLetters = tempArray;
+
+		if (this.bottomLineNumber === this.showLettersNumber) {
+			this.showWordImg = false;
+			this.showKeyboard = true;
 		}
+		this.forceUpdate();
 	}
+
 	render() {
-		// return <p>Testing</p>;
-		if (!this.showKeyboard) {
+		// click on image will make part of it become bottom line
+		// click on test letter will show either correct answer letter or wrong sign
+		// prepare to show keyboard
+		if (this.showKeyboard) {
+			let letterOfKeyBoard;
+			let targetLetterIndex =
+				this.showLettersNumber - this.bottomLineNumber;
+			this.targetLetter = this.word[targetLetterIndex];
+			if (this.targetLetter === " ") {
+				this.bottomLineNumber -= 1;
+				targetLetterIndex += 1;
+			}
+			this.targetLetter = this.word[targetLetterIndex];
+			letterOfKeyBoard = Utils.makeOptionLettersForCurrentCorrectLetter(
+				this.targetLetter
+			);
+			console.log("letter of keyboard is : ", letterOfKeyBoard);
+
+			// show keyboard for testing word
 			return (
 				<div className="testDiv">
 					<div className="testWordDiv">
-						<p>{this.props.word}</p>
+						<p>
+							{this.showTestWordLetters.map((letter, i) => {
+								return <span key={i}>{letter}</span>;
+							})}
+						</p>
 					</div>
-					<div className="testCountDownDiv">
-						<p id="countDownP">{this.countDown}</p>
+					<div className="testWordTransDiv">
+						<p>{this.testWordTrans}</p>
+					</div>
+					<div className="testKeyboard">
+						{letterOfKeyBoard.map((letter, i) => {
+							return (
+								<span
+									key={i}
+									onClick={e =>
+										this.clickOnLetterOfTestKeyword(
+											e.target
+										)}
+								>
+									{letter}
+								</span>
+							);
+						})}
+					</div>
+				</div>
+			);
+		}
+
+		if (this.showWordImg) {
+			// show image for learning word
+			return (
+				<div className="testDiv">
+					<div className="testWordDiv">
+						<p>
+							{this.showTestWordLetters.map((letter, i) => {
+								return <span key={i}>{letter}</span>;
+							})}
+						</p>
+					</div>
+					<div className="testWordTransDiv">
+						<p>{this.testWordTrans}</p>
 					</div>
 					<div className="testWordImgDiv">
 						<img
 							className="testImg"
-							id={this.props.index}
-							key={this.props.index}
+							key={this.props.word}
 							name={this.props.word}
 							src={this.props.url}
 							onClick={this.clickOnTestWordImg}
@@ -93,202 +201,20 @@ class Test extends React.Component {
 					</div>
 				</div>
 			);
-		} else {
+		}
+
+		if (this.showCorrectSign) {
 			return (
 				<div className="testDiv">
-					<div className="testAnswerDiv">
-						<p className="testAnswerP">{this.answer}</p>
+					<div className="testWordDiv">
+						<p>
+							{this.showTestWordLetters.map((letter, i) => {
+								return <span key={i}>{letter}</span>;
+							})}
+						</p>
 					</div>
-					<div className="testKeyboard">
-						<div className="testKeyboardRow">
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								q
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								w
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								e
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								r
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								t
-							</p>
-
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								y
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								u
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								i
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								o
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								p
-							</p>
-						</div>
-						<div className="testKeyboardRow">
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								a
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								s
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								d
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								f
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								g
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								h
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								j
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								k
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								l
-							</p>
-						</div>
-						<div className="testKeyboardRow">
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								z
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								x
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								c
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								v
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								b
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								n
-							</p>
-							<p
-								className="letterOfTestKeyboard"
-								onClick={e =>
-									this.clickOnLetterOfTestKeyword(e.target)}
-							>
-								m
-							</p>
-						</div>
+					<div className="testFinishDiv">
+						<p>Good!</p>
 					</div>
 				</div>
 			);
@@ -299,14 +225,12 @@ class Test extends React.Component {
 const mapStateToProps = state => {
 	return {
 		word: state.testWord,
-		index: state.testWordIndex,
+		trans: state.testWordTrans,
 		url: state.testWordImgUrl
 	};
 };
 
 const mapDispatchToProps = dispatch => {
-	return {
-		// getClick: () =>{}
-	};
+	return {};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Test);

@@ -1,136 +1,155 @@
 html,
 body {
-	top: 0;
-	left: 0;
-	margin: 0;
-	padding: 0;
-	/*width: 100%;*/
-	/*height: 100%;*/
-	overflow: hidden;
-	background-color: #6ab630;
-	/*vertical-align: */
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    /*width: 100%;*/
+    /*height: 100%;*/
+    overflow: hidden;
+    background-color: #6ab630;
+    /*vertical-align: */
 }
+
 #app {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	/*vertical-align: */
-	align-items: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /*vertical-align: */
+    align-items: center;
 }
+
 .testDiv {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	/*flex-wrap: wrap;*/
-	/*align-self: stretch;*/
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /*flex-wrap: wrap;*/
+    /*align-self: stretch;*/
 }
+
 .testWordDiv {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 10%;
-	width: 100%;
-	background-color: white;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.testAnswerDiv {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 10%;
-	width: 100%;
-	background-color: white;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 12%;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .testWordDiv p {
-	font-size: 6em;
-	color: green;
+    font-size: 3em;
+    color: #6ab630;
 }
-.testCountDownDiv {
-	margin-top: 10%;
-	margin-bottom: 10%;
+
+.testWordDiv span {
+    padding-left: 3 %;
+    padding-right: 3%;
 }
-.testCountDownDiv p {
-	font-size: 4em;
-	color: white;
+
+.testWordTransDiv {
+    position: fixed;
+    top: 12%;
+    width: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+.testWordTransDiv p {
+    color: white;
+    font-size: 1.5em;
+}
+
+.testKeyboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.testKeyboard span {
+    padding-left: 5%;
+    padding-right: 5%;
+    background-color: white;
+    font-size: 4em;
+    color: #6ab630;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    border-radius: 5px;
+}
+
 .testWordImgDiv {
-	width: 100%;
-	height: auto;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .testImg {
-	background-color: white;
+    background-color: white;
 
-	padding: 3%;
-	width: 80%;
-	height: auto;
-}
-
-.testAnswerP {
-	font-size: 6em;
-	color: green;
-	padding: 0 5px;
+    padding: 3%;
+    width: 80%;
+    height: auto;
 }
 
-.testKeyboardRow {
-	width: 100%;
-	height: 15%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: row;
+.testFinishDiv {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
-.letterOfTestKeyboard {
-	display: inline;
-	font-size: 8em;
-	color: white;
-	padding: 0 15px;
-	border-color: white;
-	border: solid 2px;
+
+.testFinishDiv p {
+    font-size: 6em;
+    color: white;
 }
+
+
+/*==================================*/
 
 .optionDiv {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	/*flex-direction: column;*/
-	flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*flex-direction: column;*/
+    flex-wrap: wrap;
 }
 
 .optionImg {
-	width: 35%;
-	height: auto;
-	padding: 3%;
-	background-color: white;
-	margin-top: 6%;
-	margin-bottom: 6%;
-	margin-left: 2%;
-	margin-right: 2%;
-	/*align-self: center;*/
+    width: 35%;
+    height: auto;
+    padding: 3%;
+    background-color: white;
+    margin-top: 6%;
+    margin-bottom: 6%;
+    margin-left: 2%;
+    margin-right: 2%;
+    /*align-self: center;*/
 }
 
 .qrcodeDiv {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .qrcodeDiv p {
-	top: 200px;
+    top: 200px;
 }

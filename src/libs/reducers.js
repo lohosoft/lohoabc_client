@@ -8,11 +8,20 @@ import * as qwest from "qwest";
 
 export default function reducer(state, action) {
 	switch (action.type) {
+		case "DesignTestDiv": {
+			let state = {
+				...state,
+				optioning: false,
+				testing: true,
+				fetching: false,
+				testWord: "hello"
+			};
+			return state;
+		}
 		case Config.ClickOnOptionImg: {
-			let target = action.payload;
-			let index = target.id;
-			let word = target.name;
-			let url = target.src;
+			let word = Utils.urlToWord(action.payload.word);
+			let url = action.payload.url;
+			let trans = action.payload.trans;
 			state = {
 				...state,
 				// show test div
@@ -21,26 +30,26 @@ export default function reducer(state, action) {
 				testing: true,
 				// update state
 				testWord: word,
-				testWordIndex: index,
 				testWordImgUrl: url,
+				testWordTrans: trans,
 				// empty current options data for next word
-				optionsImgs: [],
-				optionsImgsIndex: []
+				optionsData: [],
+				optionsWords: []
 			};
-			Handle.prepareData(word);
+			Handle.prepareNextOptionDataByWord(word);
 			return state;
 		}
-		case Config.AddNewImgData: {
-			let index = action.payload.index;
+		case Config.AddNewOptionData: {
 			let word = action.payload.word;
 			let url = action.payload.url;
-			let newOptionImg = { index: index, word: word, url: url };
-			let newOptionsImgs = state.optionsImgs.concat(newOptionImg);
-			let newOptionsImgsIndex = state.optionsImgsIndex.concat(index);
+			let trans = action.payload.trans;
+			let newOption = { word: word, url: url, trans: trans };
+			let newOptions = state.optionsData.concat(newOption);
+			let newOptionsWords = state.optionsWords.concat(word);
 			state = {
 				...state,
-				optionsImgsIndex: newOptionsImgsIndex,
-				optionsImgs: newOptionsImgs
+				optionsData: newOptions,
+				optionsWords: newOptionsWords
 			};
 			return state;
 		}
