@@ -21,7 +21,14 @@ class Test extends React.Component {
 		// don't touch space in phrase
 		this.bottomLineNumber = 0;
 		this.targetLetter;
-		this.testLetterHis = [];
+		// simple test history like this:
+		// number of 0 equals number of letters of word
+		// [1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0]
+		// if wrong ,push 1 ;if right, push 0
+		// all 1s before 0 is wrong time
+		this.simpleTestLetterHis = [];
+		// record all fine history but not use it yet ========= TODO
+		this.fineTestLetterHis = [];
 		this.word = this.props.word;
 		this.clickOnTestWordImg = this.clickOnTestWordImg.bind(this);
 		this.clickOnLetterOfTestKeyword = this.clickOnLetterOfTestKeyword.bind(
@@ -31,13 +38,15 @@ class Test extends React.Component {
 
 	componentDidMount() {}
 	finishTest() {
-		console.log(
-			"test for current word is finising,need save data into store.state : ",
-			this.testLetterHis
-		);
+		// just keep simple record history ==============  TODO
+		let payload = { word: this.word, his: this.simpleTestLetterHis };
+		Store.dispatch({
+			type: Config.SaveTestHis,
+			payload: payload
+		});
 		this.showCorrectSign = true;
 		this.forceUpdate();
-		//=====================.  go next after timeout 2 second ==============. TODO
+		// go next after timeout 2 second
 		setTimeout(this.nextOptions, 2000);
 	}
 
@@ -45,18 +54,22 @@ class Test extends React.Component {
 		Store.dispatch({ type: Config.ShowOptionsDiv });
 	}
 	clickOnLetterOfTestKeyword(target) {
-		// judge intput if correct , right show it in green , wrong show it in red
-		// this.answer += target.innerHTML;
+		// judge intput if correct , right show it in green , wrong show it in red ============  TODO
 		let answerLetter = target.innerHTML;
 
 		console.log("clicke on ", answerLetter);
 		console.log("correct letter is ", this.targetLetter);
 
-		// ===================================================. TODO
-		// notice store to save click letter history into state
-
 		// click on right letter need update interface
 		if (answerLetter === this.targetLetter) {
+			// record it
+			this.simpleTestLetterHis.push(0);
+			this.fineTestLetterHis.push({
+				target: answerLetter,
+				answer: answerLetter
+			});
+
+			// what to display
 			let tempArray = [];
 			this.testWordLetters.map((letter, i) => {
 				if (i <= this.showLettersNumber - this.bottomLineNumber) {
@@ -72,10 +85,10 @@ class Test extends React.Component {
 			this.showTestWordLetters = tempArray;
 
 			console.log("showTestWordLetters is ", this.showTestWordLetters);
-			// this.forceUpdate();
+
 			this.bottomLineNumber -= 1;
 			if (this.bottomLineNumber === 0) {
-				// all correnct do next
+				// all correnct go next
 				console.log(" correct all letter , got pass");
 				this.showKeyboard = false;
 				this.finishTest();
@@ -85,11 +98,11 @@ class Test extends React.Component {
 		} else {
 			// click on wrong letter , record it and do nothing with interface
 			console.log("wrong letter pick,record it");
-			this.testLetterHis.push({
+			this.simpleTestLetterHis.push(1);
+			this.fineTestLetterHis.push({
 				target: this.targetLetter,
 				answer: answerLetter
 			});
-			console.log(this.testLetterHis);
 		}
 	}
 	clickOnTestWordImg() {

@@ -14,7 +14,7 @@ exports.initialState = {
 	testWordImgUrl: "",
 	testScore: 0,
 	//[{index:33,word:apple,score:90}]
-	testHis: [{}]
+	testHis: []
 };
 // logger mark
 const dev = true;
@@ -36,6 +36,9 @@ if (dev) {
 	exports.RootUrl = "http://www.lohosoft.cn/";
 	exports.WordImgPath = "static/pics/";
 }
+const apiRootUrl = "https://lohosoft.cn/api/abc/";
+const postTestHisUrl = "testhis/";
+exports.ApiPostTestHisUrl = apiRootUrl + postTestHisUrl;
 
 // guess img for word
 exports.dev = dev;
@@ -48,4 +51,5 @@ exports.PrepareTransForWord = "PrepareTransForWord";
 exports.AddNewOptionData = "AddNewOptionData";
 // click event
 exports.ClickOnOptionImg = "ClickOnOptionImg";
+exports.SaveTestHis = "SaveTestHis";
 exports.optionLetterLimitTemporary = 4;

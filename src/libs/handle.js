@@ -3,6 +3,50 @@ import Config from "./config.js";
 import Store from "./store.js";
 import Err from "./err.js";
 import Utils from "./utils.js";
+// { word: this.word, his: this.testLetterHis };
+function postTestHis(rawData) {
+	// process raw data into json data
+	// then post it
+	console.log("handle test his data : ", rawData);
+	let word = rawData.word;
+	let his = rawData.his;
+	//  ================================================
+	// hard to understand by the code explanation here:
+	// res is for each letter record
+	// res1 is for whole record of a word
+	// score is  1 or 0
+	// if score is 1 ,means wrong letter
+	// if score is 0 ,means finaly right letter
+	// for example : [1,0,0,1,1,0,1,0,1,1,1,0] should divide by :
+	// [1,0,| 0, | 1,1,0, | 1,0, | 1,1,1,0]
+	// count every 1 till meet 0 ,
+	// if 0 by 0 , just push 0,
+	// =================================================
+	let res = 0;
+	let res1 = [];
+	his.map(score => {
+		if (score === 1) {
+			res += 1;
+		} else {
+			res1.push(res);
+			res = 0;
+		}
+	});
+	console.log("handled result is : ", res1);
+	let postdata = { word: word, his: res1 };
+
+	qwest.setDefaultDataType("json");
+	qwest
+		.post(Config.ApiPostTestHisUrl, postdata)
+		.then(function(xhr, response) {
+			// ok
+			console.log("ok with response : ", response);
+		})
+		.catch(function(e, xhr, respose) {
+			// error
+			console.log("error with response : ", response);
+		});
+}
 
 function prepareNextOptionDataByWord(word) {
 	// getRawOptionsWords(word);
@@ -51,7 +95,7 @@ function prepareOptionData(option, guessTime) {
 					let newOptionData = {
 						word: word,
 						url: guessImgUrl,
-						trans:trans
+						trans: trans
 					};
 					Store.dispatch({
 						type: Config.AddNewOptionData,
@@ -76,3 +120,4 @@ function prepareOptionData(option, guessTime) {
 }
 
 exports.prepareNextOptionDataByWord = prepareNextOptionDataByWord;
+exports.postTestHis = postTestHis;
