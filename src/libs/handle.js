@@ -4,39 +4,31 @@ import Store from "./store.js";
 import Err from "./err.js";
 import Utils from "./utils.js";
 
-function prepareDataForWord(word) {
+function prepareNextOptionDataByWord(word) {
 	// getRawOptionsWords(word);
-
-	Utils.getNearWords(word, Config.queryNearWordsLimitation, showOptionsWords);
+	Utils.getNearWords(word, Config.queryNearWordsLimitation, prepareOptions);
 }
 
-function showOptionsWords(callbackdata) {
-	let word = callbackdata.word;
+function prepareOptions(callbackdata) {
 	// target word on first position of array
 	let options = callbackdata.data;
 	// remove first
 	options.shift();
 	// shuffle and get first 4
 	options = Utils.shuffle(options).slice(0, 4);
-	console.log("prepare OptionsWords for with : ", word, options);
 	options.map(option => {
-		// santinize words for phrase
-		// convert comma , to space ' '
-		// comma brought by graphlib handle symbol , maybe improve it later ====================  TODO
-		if (option.indexOf(",") !== -1) {
-			option = option.replace(/,/g, " ");
-		}
-		prepareOptionImgData(option);
+		prepareOptionData(option, 0);
 	});
 }
 
-function prepareOptionImgData(word) {
+function prepareOptionData(option, guessTime) {
+	let word = option.word;
+	let trans = option.trans;
 	// check if word img got already
-	console.log("prepare option image for :", word);
-	let guessTime = 0;
+	console.log("prepare option data for :", word);
 	let state = Store.getState();
 	if (
-		state.optionsImgsWords.indexOf(word) === -1 &&
+		state.optionsWords.indexOf(word) === -1 &&
 		guessTime <= Config.WordImgGuessLimit
 	) {
 		let guessImgUrl = Config.RootUrl;
@@ -56,13 +48,14 @@ function prepareOptionImgData(word) {
 				console.log("guess word img xhr status is : ", xhr.status);
 				if (xhr.status === 200) {
 					console.log("got image : ", guessImgUrl);
-					let newImgData = {
+					let newOptionData = {
 						word: word,
-						url: guessImgUrl
+						url: guessImgUrl,
+						trans:trans
 					};
 					Store.dispatch({
-						type: Config.AddNewImgData,
-						payload: newImgData
+						type: Config.AddNewOptionData,
+						payload: newOptionData
 					});
 				}
 			})
@@ -76,10 +69,10 @@ function prepareOptionImgData(word) {
 			.complete(function() {});
 	} else {
 		// beyond guess time
-		Err.guessWordImg(index, word);
+		Err.guessWordImg(word);
 	}
 
 	// console.log("new state is :", state);
 }
 
-exports.prepareDataForWord = prepareDataForWord;
+exports.prepareNextOptionDataByWord = prepareNextOptionDataByWord;

@@ -13,7 +13,7 @@ function init() {
 	// if ("ontouchstart" in document.documentElement) {
 	Utils.setScreenHeight();
 	Store.dispatch({ type: Config.ShowOptionsDiv });
-	Handle.prepareDataForWord("water");
+	Handle.prepareNextOptionDataByWord("water");
 	// } else {
 	// 	console.log("show barcode here");
 	// 	Store.dispatch({ type: Config.ShowHelloDiv });

@@ -4,12 +4,13 @@ exports.initialState = {
 	testing: false,
 	fetching: true,
 	// for optioning div ===============
-	//[{word:apple,url:"http://..."}]
-	optionsImgs: [],
+	//[{word:apple,url:"http://...",tran:"pingguo"}]
+	optionsData: [],
 	// ["banana","apple"]
-	optionsImgsWords: [],
+	optionsWords: [],
 	// for testing div=============
 	testWord: "",
+	testWordTrans: "",
 	testWordImgUrl: "",
 	testScore: 0,
 	//[{index:33,word:apple,score:90}]
@@ -43,7 +44,8 @@ exports.OptionsImgsLimit = 4;
 exports.queryNearWordsLimitation = 6;
 exports.GotWordImg = "GotWordImg";
 exports.GuessWordImgTimout = 1000;
-exports.AddNewImgData = "AddNewImgData";
+exports.PrepareTransForWord = "PrepareTransForWord";
+exports.AddNewOptionData = "AddNewOptionData";
 // click event
 exports.ClickOnOptionImg = "ClickOnOptionImg";
 exports.optionLetterLimitTemporary = 4;

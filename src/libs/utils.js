@@ -3,20 +3,12 @@ import Store from "./store.js";
 import myWorker from "./worker.js";
 import * as qwest from "qwest";
 
-// demo
-// Utils.getWordTrans("banana", console.log);
-function getWordTrans(word, callback) {
-	myWorker.onmessage = function(e) {
-		console.log("worker back data is : ", e.data);
-		callback(e.data);
-	};
-	myWorker.postMessage({ type: "trans", word: word });
-}
-
 function getNearWords(word, number, callback) {
 	myWorker.onmessage = function(e) {
-		console.log("worker back data is : ", e.data);
-		callback(e.data);
+		if (e.data.type === "near") {
+			console.log("worker back nears words data is : ", e.data);
+			callback(e.data);
+		}
 	};
 	myWorker.postMessage({ type: "near", word: word, number: number });
 }
@@ -24,41 +16,43 @@ function getNearWords(word, number, callback) {
 function mapToJson(map) {
 	return JSON.stringify([...map]);
 }
+
 function jsonToMap(jsonStr) {
 	return new Map(JSON.parse(jsonStr));
 }
 
-function randLetter() {
-	var letters = [
-		"a",
+function randLetter(letter) {
+	let vowels = ["a", "e", "i", "o", "u", "y"];
+	let consons = [
 		"b",
 		"c",
 		"d",
-		"e",
 		"f",
 		"g",
 		"h",
-		"i",
 		"j",
 		"k",
 		"l",
 		"m",
 		"n",
-		"o",
 		"p",
 		"q",
 		"r",
 		"s",
 		"t",
-		"u",
 		"v",
 		"w",
 		"x",
-		"y",
 		"z"
 	];
-	var letter = letters[Math.floor(Math.random() * letters.length)];
-	return letter;
+	let whereToPick;
+	if (vowels.indexOf(letter) === -1) {
+		whereToPick = consons;
+	} else {
+		whereToPick = vowels;
+	}
+	var letter1 = whereToPick[Math.floor(Math.random() * whereToPick.length)];
+	return letter1;
 }
 
 function shuffle(array) {
@@ -70,13 +64,14 @@ function shuffle(array) {
 	}
 	return array;
 }
+
 function makeOptionLettersForCurrentCorrectLetter(letter) {
 	let res = [];
 	// =======================  TODO
 	// given a ltter make various number other letter to make an array as options letter for testing
 	// now just get 3 other random number
 	for (var i = 0; i < Config.optionLetterLimitTemporary - 1; i++) {
-		let optionLetter = randLetter();
+		let optionLetter = randLetter(letter);
 		if (res.indexOf(optionLetter) === -1 && optionLetter !== letter) {
 			// if random int existed in options or equal to target , re make agin
 			res.push(optionLetter);
@@ -101,9 +96,11 @@ function setScreenHeight() {
 	console.log("screen height is ", height);
 	document.getElementById("app").style.height = height + "px";
 }
+
 function urlToWord(url) {
 	return url.replace(/_/gi, " ").toLowerCase();
 }
+
 function wordToUrl(word) {
 	return word.replace(/[^A-Za-z0-9]/gi, "_").toLowerCase();
 }
@@ -111,7 +108,6 @@ exports.wordToUrl = wordToUrl;
 exports.urlToWord = urlToWord;
 exports.shuffle = shuffle;
 exports.getNearWords = getNearWords;
-exports.getWordTrans = getWordTrans;
 exports.setScreenHeight = setScreenHeight;
 exports.getRandomInt = getRandomInt;
 exports.mapToJson = mapToJson;

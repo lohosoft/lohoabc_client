@@ -19,9 +19,9 @@ export default function reducer(state, action) {
 			return state;
 		}
 		case Config.ClickOnOptionImg: {
-			let target = action.payload;
-			let word = Utils.urlToWord(target.id);
-			let url = target.src;
+			let word = Utils.urlToWord(action.payload.word);
+			let url = action.payload.url;
+			let trans = action.payload.trans;
 			state = {
 				...state,
 				// show test div
@@ -31,23 +31,25 @@ export default function reducer(state, action) {
 				// update state
 				testWord: word,
 				testWordImgUrl: url,
+				testWordTrans: trans,
 				// empty current options data for next word
-				optionsImgs: [],
-				optionsImgsWords: []
+				optionsData: [],
+				optionsWords: []
 			};
-			Handle.prepareDataForWord(word);
+			Handle.prepareNextOptionDataByWord(word);
 			return state;
 		}
-		case Config.AddNewImgData: {
+		case Config.AddNewOptionData: {
 			let word = action.payload.word;
 			let url = action.payload.url;
-			let newOptionImg = { word: word, url: url };
-			let newOptionsImgs = state.optionsImgs.concat(newOptionImg);
-			let newOptionsImgsWords = state.optionsImgsWords.concat(word);
+			let trans = action.payload.trans;
+			let newOption = { word: word, url: url, trans: trans };
+			let newOptions = state.optionsData.concat(newOption);
+			let newOptionsWords = state.optionsWords.concat(word);
 			state = {
 				...state,
-				optionsImgsWords: newOptionsImgsWords,
-				optionsImgs: newOptionsImgs
+				optionsData: newOptions,
+				optionsWords: newOptionsWords
 			};
 			return state;
 		}

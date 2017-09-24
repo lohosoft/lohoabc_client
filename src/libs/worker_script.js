@@ -18,11 +18,6 @@ function init() {
 self.onmessage = function(e) {
 	let data = e.data;
 	let word = data.word;
-	console.log("worker got data : ", data);
-	if (data.type === "trans") {
-		let trans = graph.node(word);
-		self.postMessage({ type: "trans", word: word, data: trans });
-	}
 
 	if (data.type === "near") {
 		let word = data.word;
@@ -33,18 +28,21 @@ self.onmessage = function(e) {
 // =================  bug here TODO ====================
 // if give big number to search , but graph is not full connected yet, work will going on and can't reach end
 function queryNearWords(target, number) {
-
 	console.log("worker query " + number + " words for word : " + target);
 	let res = [target];
+	let res1 = [];
 	while (res.length < number + 1) {
 		for (let i = res.length - 1; i >= 0; i--) {
 			let nears = graph.neighbors(res[i]);
 			for (let i = nears.length - 1; i >= 0; i--) {
 				if (res.indexOf(nears[i]) === -1) {
-					res.push(nears[i]);
+					let word = nears[i];
+					let trans = graph.node(word)[0];
+					res.push(word);
+					res1.push({ word: word, trans: trans });
 				}
 			}
 		}
 	}
-	self.postMessage({ type: "near", word: target, data: res });
+	self.postMessage({ type: "near", word: target, data: res1 });
 }

@@ -4,17 +4,21 @@ import Config from "../libs/config.js";
 import Utils from "../libs/utils.js";
 
 class Options extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 	componentDidMount() {}
 	render() {
 		// return <p onClick={e => this.props.getClick(e.target)}> Options </p>;
 
-		let imgsHtml = this.props.imgs.map(img => {
+		let imgsHtml = this.props.options.map(option => {
 			return (
 				<img
 					className="optionImg"
-					id={Utils.wordToUrl(img.word)}
-					key={Utils.wordToUrl(img.word)}
-					src={img.url}
+					id={Utils.wordToUrl(option.word)}
+					key={Utils.wordToUrl(option.word)}
+					name={option.trans}
+					src={option.url}
 					onClick={e => this.props.getClick(e.target)}
 				/>
 			);
@@ -26,7 +30,7 @@ class Options extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-		imgs: state.optionsImgs
+		options: state.optionsData
 	};
 };
 
@@ -35,7 +39,11 @@ const mapDispatchToProps = dispatch => {
 		getClick: target =>
 			dispatch({
 				type: Config.ClickOnOptionImg,
-				payload: target
+				payload: {
+					word: target.id,
+					url: target.src,
+					trans: target.name
+				}
 			})
 	};
 };

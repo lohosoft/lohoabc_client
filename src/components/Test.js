@@ -12,6 +12,7 @@ class Test extends React.Component {
 		// at init testWordLetters equals showTestWordLetters
 		// but testWordLetters keep static for reffrence to showTestWordLetters
 		this.testWordLetters = this.showTestWordLetters;
+		this.testWordTrans = this.props.trans;
 		this.showLettersNumber = this.showTestWordLetters.length;
 		this.showKeyboard = false;
 		this.showWordImg = true;
@@ -37,6 +38,11 @@ class Test extends React.Component {
 		this.showCorrectSign = true;
 		this.forceUpdate();
 		//=====================.  go next after timeout 2 second ==============. TODO
+		setTimeout(this.nextOptions, 2000);
+	}
+
+	nextOptions() {
+		Store.dispatch({ type: Config.ShowOptionsDiv });
 	}
 	clickOnLetterOfTestKeyword(target) {
 		// judge intput if correct , right show it in green , wrong show it in red
@@ -51,9 +57,6 @@ class Test extends React.Component {
 
 		// click on right letter need update interface
 		if (answerLetter === this.targetLetter) {
-			console.log("correct letter click on ", answerLetter);
-			console.log("bottomLineNumber is ", this.bottomLineNumber);
-			this.bottomLineNumber -= 1;
 			let tempArray = [];
 			this.testWordLetters.map((letter, i) => {
 				if (i <= this.showLettersNumber - this.bottomLineNumber) {
@@ -70,7 +73,7 @@ class Test extends React.Component {
 
 			console.log("showTestWordLetters is ", this.showTestWordLetters);
 			// this.forceUpdate();
-
+			this.bottomLineNumber -= 1;
 			if (this.bottomLineNumber === 0) {
 				// all correnct do next
 				console.log(" correct all letter , got pass");
@@ -131,15 +134,14 @@ class Test extends React.Component {
 			let targetLetterIndex =
 				this.showLettersNumber - this.bottomLineNumber;
 			this.targetLetter = this.word[targetLetterIndex];
-			if (this.targetLetter !== " ") {
-				letterOfKeyBoard = Utils.makeOptionLettersForCurrentCorrectLetter(
-					this.targetLetter
-				);
-			} else {
-				// meet space , update page go to next letter render
+			if (this.targetLetter === " ") {
 				this.bottomLineNumber -= 1;
+				targetLetterIndex += 1;
 			}
-
+			this.targetLetter = this.word[targetLetterIndex];
+			letterOfKeyBoard = Utils.makeOptionLettersForCurrentCorrectLetter(
+				this.targetLetter
+			);
 			console.log("letter of keyboard is : ", letterOfKeyBoard);
 
 			// show keyboard for testing word
@@ -152,6 +154,8 @@ class Test extends React.Component {
 							})}
 						</p>
 					</div>
+					<p className="testTransP">{this.testWordTrans}</p>
+
 					<div className="testKeyboard">
 						{letterOfKeyBoard.map((letter, i) => {
 							return (
@@ -182,6 +186,7 @@ class Test extends React.Component {
 							})}
 						</p>
 					</div>
+					<p className="testTransP">{this.testWordTrans}</p>
 
 					<div className="testWordImgDiv">
 						<img
@@ -218,6 +223,7 @@ class Test extends React.Component {
 const mapStateToProps = state => {
 	return {
 		word: state.testWord,
+		trans: state.testWordTrans,
 		url: state.testWordImgUrl
 	};
 };
