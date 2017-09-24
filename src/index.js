@@ -8,14 +8,12 @@ import App from "./components/App.js";
 import Store from "./libs/store.js";
 import Handle from "./libs/handle.js";
 import Utils from "./libs/utils.js";
-Store.subscribe(() => {
-	console.log("store changed ", Store.getState());
-});
 
 function init() {
 	// if ("ontouchstart" in document.documentElement) {
 	Utils.setScreenHeight();
-	Store.dispatch({ type: "DesignTestDiv" });
+	Store.dispatch({ type: Config.ShowOptionsDiv });
+	Handle.prepareDataForWord("water");
 	// } else {
 	// 	console.log("show barcode here");
 	// 	Store.dispatch({ type: Config.ShowHelloDiv });

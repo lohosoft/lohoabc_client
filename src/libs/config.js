@@ -4,12 +4,12 @@ exports.initialState = {
 	testing: false,
 	fetching: true,
 	// for optioning div ===============
-	//[{index:22,word:apple,url:"http://..."}]
+	//[{word:apple,url:"http://..."}]
 	optionsImgs: [],
-	optionsImgsIndex: [],
+	// ["banana","apple"]
+	optionsImgsWords: [],
 	// for testing div=============
 	testWord: "",
-	testWordIndex: 0,
 	testWordImgUrl: "",
 	testScore: 0,
 	//[{index:33,word:apple,score:90}]
@@ -27,13 +27,20 @@ exports.ShowTestDiv = "ShowTestDiv";
 exports.ShowHelloDiv = "ShowHelloDiv";
 
 // url
-exports.RootUrl = "http://211.159.217.250:8080/";
-exports.WordImgPath = "wordimgs/thumb/";
-exports.ApiGetOptionsUrl = "api/options/";
+// http://211.159.217.250:8090/pics/pep-banana-0.jpeg
+if (dev) {
+	exports.RootUrl = "http://211.159.217.250:8090/";
+	exports.WordImgPath = "pics/";
+} else {
+	exports.RootUrl = "http://www.lohosoft.cn/";
+	exports.WordImgPath = "static/pics/";
+}
 
 // guess img for word
-exports.WordImgGuessLimit = 4;
+exports.dev = dev;
+exports.WordImgGuessLimit = 8;
 exports.OptionsImgsLimit = 4;
+exports.queryNearWordsLimitation = 6;
 exports.GotWordImg = "GotWordImg";
 exports.GuessWordImgTimout = 1000;
 exports.AddNewImgData = "AddNewImgData";

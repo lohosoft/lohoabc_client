@@ -101,6 +101,15 @@ function setScreenHeight() {
 	console.log("screen height is ", height);
 	document.getElementById("app").style.height = height + "px";
 }
+function urlToWord(url) {
+	return url.replace(/_/gi, " ").toLowerCase();
+}
+function wordToUrl(word) {
+	return word.replace(/[^A-Za-z0-9]/gi, "_").toLowerCase();
+}
+exports.wordToUrl = wordToUrl;
+exports.urlToWord = urlToWord;
+exports.shuffle = shuffle;
 exports.getNearWords = getNearWords;
 exports.getWordTrans = getWordTrans;
 exports.setScreenHeight = setScreenHeight;

@@ -4,71 +4,48 @@ import Store from "./store.js";
 import Err from "./err.js";
 import Utils from "./utils.js";
 
-function prepareData(word) {
-	getRawOptionsWords(word);
-}
-function getRawOptionsWords(targetWord) {
-	let requestUrl =
-		Config.RootUrl + Config.ApiGetOptionsUrl + "?word=" + targetWord;
+function prepareDataForWord(word) {
+	// getRawOptionsWords(word);
 
-	qwest
-		.get(requestUrl)
-		.then(function(xhr, response) {
-			console.log("got optoiins words : ", response);
-			// Store.dispatch({
-			// 	type: Config.FilterRawOptionsWords,
-			// 	payload: {
-			// 		word: targetWord,
-			// 		data: JSON.parse(response)
-			// 	}
-			// });
-
-			filterRawOptionsWords(targetWord, JSON.parse(response));
-		})
-		.catch(function(e, xhr, response) {
-			Err.getRawOptionsWords(e, xhr, response);
-		})
-		.complete(function() {});
+	Utils.getNearWords(word, Config.queryNearWordsLimitation, showOptionsWords);
 }
 
-// return [{index:33,word:apple}]
-function filterRawOptionsWords(word, data) {
-	console.log("got word to filter :", data);
-	console.log("filter for word :", word);
-	let res = [];
-	let res1 = [];
-	for (var i = data.length - 1; i >= 0; i--) {
-		console.log(data[i][0]);
-		if (
-			// MyJaroWinkler(word, data[i][0]) < 0.8 &&
-			res.length < Config.OptionsImgsLimit &&
-			Utils.LocalWordMap.has(data[i][0])
-		) {
-			res.push(data[i][0]);
-			let index = Utils.LocalWordMap.get(data[i][0]);
-			res1.push({ index: index, word: data[i][0] });
-			// prepareOptionsImgData(index, word);
+function showOptionsWords(callbackdata) {
+	let word = callbackdata.word;
+	// target word on first position of array
+	let options = callbackdata.data;
+	// remove first
+	options.shift();
+	// shuffle and get first 4
+	options = Utils.shuffle(options).slice(0, 4);
+	console.log("prepare OptionsWords for with : ", word, options);
+	options.map(option => {
+		// santinize words for phrase
+		// convert comma , to space ' '
+		// comma brought by graphlib handle symbol , maybe improve it later ====================  TODO
+		if (option.indexOf(",") !== -1) {
+			option = option.replace(/,/g, " ");
 		}
-	}
-	console.log("filtered word is :", res1);
-	for (var i = res1.length - 1; i >= 0; i--) {
-		let index = res1[i].index;
-		let word = res1[i].word;
-		prepareOptionsImgData(index, word, 0);
-	}
+		prepareOptionImgData(option);
+	});
 }
 
-function prepareOptionsImgData(index, word, guessTime) {
+function prepareOptionImgData(word) {
 	// check if word img got already
-	console.log("prepare option image for :", index);
+	console.log("prepare option image for :", word);
+	let guessTime = 0;
 	let state = Store.getState();
 	if (
-		state.optionsImgsIndex.indexOf(index) === -1 &&
+		state.optionsImgsWords.indexOf(word) === -1 &&
 		guessTime <= Config.WordImgGuessLimit
 	) {
-		let wordImgUrlRoot = Config.RootUrl + Config.WordImgPath;
-		let guessImgUrl =
-			wordImgUrlRoot + index + "-thumb-" + guessTime + ".jpeg";
+		let guessImgUrl = Config.RootUrl;
+		guessImgUrl += Config.WordImgPath;
+		guessImgUrl += "pep-";
+		guessImgUrl += Utils.wordToUrl(word);
+		guessImgUrl += "-";
+		guessImgUrl += guessTime;
+		guessImgUrl += ".jpeg";
 
 		console.log("try get guess imag with url : ", guessImgUrl);
 		qwest
@@ -78,8 +55,8 @@ function prepareOptionsImgData(index, word, guessTime) {
 			.then(function(xhr, response) {
 				console.log("guess word img xhr status is : ", xhr.status);
 				if (xhr.status === 200) {
+					console.log("got image : ", guessImgUrl);
 					let newImgData = {
-						index: index,
 						word: word,
 						url: guessImgUrl
 					};
@@ -94,7 +71,7 @@ function prepareOptionsImgData(index, word, guessTime) {
 					"guess word image not exist on server err :",
 					xhr.status
 				);
-				prepareOptionsImgData(index, word, guessTime + 1);
+				prepareOptionImgData(word, guessTime + 1);
 			})
 			.complete(function() {});
 	} else {
@@ -102,7 +79,7 @@ function prepareOptionsImgData(index, word, guessTime) {
 		Err.guessWordImg(index, word);
 	}
 
-	console.log("new state is :", state);
+	// console.log("new state is :", state);
 }
 
-exports.prepareData = prepareData;
+exports.prepareDataForWord = prepareDataForWord;

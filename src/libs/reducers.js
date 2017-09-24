@@ -20,8 +20,7 @@ export default function reducer(state, action) {
 		}
 		case Config.ClickOnOptionImg: {
 			let target = action.payload;
-			let index = target.id;
-			let word = target.name;
+			let word = Utils.urlToWord(target.id);
 			let url = target.src;
 			state = {
 				...state,
@@ -31,25 +30,23 @@ export default function reducer(state, action) {
 				testing: true,
 				// update state
 				testWord: word,
-				testWordIndex: index,
 				testWordImgUrl: url,
 				// empty current options data for next word
 				optionsImgs: [],
-				optionsImgsIndex: []
+				optionsImgsWords: []
 			};
-			Handle.prepareData(word);
+			Handle.prepareDataForWord(word);
 			return state;
 		}
 		case Config.AddNewImgData: {
-			let index = action.payload.index;
 			let word = action.payload.word;
 			let url = action.payload.url;
-			let newOptionImg = { index: index, word: word, url: url };
+			let newOptionImg = { word: word, url: url };
 			let newOptionsImgs = state.optionsImgs.concat(newOptionImg);
-			let newOptionsImgsIndex = state.optionsImgsIndex.concat(index);
+			let newOptionsImgsWords = state.optionsImgsWords.concat(word);
 			state = {
 				...state,
-				optionsImgsIndex: newOptionsImgsIndex,
+				optionsImgsWords: newOptionsImgsWords,
 				optionsImgs: newOptionsImgs
 			};
 			return state;

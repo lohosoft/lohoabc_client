@@ -2,7 +2,7 @@
 
 const graphlib = require("graphlib");
 const Graph = graphlib.Graph;
-const dictGraphJson = require("../data/dict_graph.json");
+const dictGraphJson = require("../data/dict_graph_v2_simple_connected_components.json");
 let graph = new Graph();
 
 init();
@@ -30,8 +30,11 @@ self.onmessage = function(e) {
 		queryNearWords(word, number);
 	}
 };
-
+// =================  bug here TODO ====================
+// if give big number to search , but graph is not full connected yet, work will going on and can't reach end
 function queryNearWords(target, number) {
+
+	console.log("worker query " + number + " words for word : " + target);
 	let res = [target];
 	while (res.length < number + 1) {
 		for (let i = res.length - 1; i >= 0; i--) {

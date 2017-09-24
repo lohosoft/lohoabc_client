@@ -14,4 +14,8 @@ if (Config.dev) {
 const initialState = Config.initialState;
 const store = createStore(Reducers, initialState, middleware);
 
+// store.subscribe(() => {
+// 	console.log("store changed ", store.getState());
+// });
+
 export default store;

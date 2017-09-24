@@ -8,14 +8,16 @@ import Utils from "../libs/utils.js";
 class Test extends React.Component {
 	constructor(props) {
 		super(props);
+		this.showTestWordLetters = [];
 		this.showKeyboard = false;
 		this.showWordImg = true;
 		this.showCorrectSign = false;
 		// use this mark to deside what to display word
-		// at beginning  mark = 0 , show all letter of word
+		// at beginning  mark = word length , show all letter of word
 		// click on image will -1 on mark , and letter at end of work become bottom line
 		// click on letter of keyboard will + 1 on mark ,and letter at begin of shows if answer is correct
-		this.letterMark = 0;
+
+		this.letterMark = this.props.word.length;
 		this.testLetterHis = [];
 		this.word = this.props.word;
 		this.clickOnTestWordImg = this.clickOnTestWordImg.bind(this);
@@ -75,12 +77,23 @@ class Test extends React.Component {
 		responsiveVoice.speak(this.props.word, "US English Female", {
 			rate: 0.8
 		});
-		this.letterMark += 1;
-		console.log(
-			"for click on word image ,current letter mark is :",
-			this.letterMark
-		);
-		if (this.letterMark === this.props.word.length) {
+
+		this.letterMark -= 1;
+		// get char array from word or phrase
+		this.props.word.split("").map((letter, i) => {
+			// console.log(letter, i);
+			if (i <= this.letterMark) {
+				this.showTestWordLetters.push(letter);
+			} else {
+				this.showTestWordLetters.push("_");
+			}
+		});
+		// this.letterMark += 1;
+		// console.log(
+		// 	"for click on word image ,current letter mark is :",
+		// 	this.letterMark
+		// );
+		if (this.letterMark === 0) {
 			this.showWordImg = false;
 			this.showKeyboard = true;
 		}
@@ -93,17 +106,9 @@ class Test extends React.Component {
 		// init with state.word;
 		// click on image will make part of it become bottom line
 		// click on test letter will show either correct answer letter or wrong sign
-		let testShowWord = [];
 		let letterOfKeyBoard = [];
 
-		for (var i = 0; i < this.word.length; i++) {
-			if (i < this.word.length - this.letterMark) {
-				testShowWord.push(this.props.word[i]);
-			} else {
-				testShowWord.push("_");
-			}
-		}
-		// prepare to shwo keyboard
+		// prepare to show keyboard
 		if (this.showKeyboard) {
 			let targetLetterIndexOfWord =
 				this.props.word.length - this.letterMark;
@@ -122,15 +127,16 @@ class Test extends React.Component {
 				<div className="testDiv">
 					<div className="testWordDiv">
 						<p>
-							{testShowWord.map((letter, i) => {
+							{this.showTestWordLetters.map((letter, i) => {
 								return <span key={i}>{letter}</span>;
 							})}
 						</p>
 					</div>
 					<div className="testKeyboard">
-						{letterOfKeyBoard.map(letter => {
+						{letterOfKeyBoard.map((letter, i) => {
 							return (
 								<span
+									key={i}
 									onClick={e =>
 										this.clickOnLetterOfTestKeyword(
 											e.target
@@ -151,7 +157,7 @@ class Test extends React.Component {
 				<div className="testDiv">
 					<div className="testWordDiv">
 						<p>
-							{testShowWord.map((letter, i) => {
+							{this.showTestWordLetters.map((letter, i) => {
 								return <span key={i}>{letter}</span>;
 							})}
 						</p>
@@ -160,8 +166,7 @@ class Test extends React.Component {
 					<div className="testWordImgDiv">
 						<img
 							className="testImg"
-							id={this.props.index}
-							key={this.props.index}
+							key={this.props.word}
 							name={this.props.word}
 							src={this.props.url}
 							onClick={this.clickOnTestWordImg}
@@ -176,7 +181,7 @@ class Test extends React.Component {
 				<div className="testDiv">
 					<div className="testWordDiv">
 						<p>
-							{testShowWord.map((letter, i) => {
+							{this.showTestWordLetters.map((letter, i) => {
 								return <span key={i}>{letter}</span>;
 							})}
 						</p>
@@ -193,7 +198,6 @@ class Test extends React.Component {
 const mapStateToProps = state => {
 	return {
 		word: state.testWord,
-		index: state.testWordIndex,
 		url: state.testWordImgUrl
 	};
 };
