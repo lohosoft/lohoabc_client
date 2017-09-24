@@ -8,16 +8,18 @@ import Utils from "../libs/utils.js";
 class Test extends React.Component {
 	constructor(props) {
 		super(props);
-		this.showTestWordLetters = [];
+		this.showTestWordLetters = this.props.word.split("");
+		// at init testWordLetters equals showTestWordLetters
+		// but testWordLetters keep static for reffrence to showTestWordLetters
+		this.testWordLetters = this.showTestWordLetters;
+		this.showLettersNumber = this.showTestWordLetters.length;
 		this.showKeyboard = false;
 		this.showWordImg = true;
 		this.showCorrectSign = false;
-		// use this mark to deside what to display word
-		// at beginning  mark = word length , show all letter of word
-		// click on image will -1 on mark , and letter at end of work become bottom line
-		// click on letter of keyboard will + 1 on mark ,and letter at begin of shows if answer is correct
-
-		this.letterMark = this.props.word.length;
+		// how many bottom line need to show ?
+		// don't touch space in phrase
+		this.bottomLineNumber = 0;
+		this.targetLetter;
 		this.testLetterHis = [];
 		this.word = this.props.word;
 		this.clickOnTestWordImg = this.clickOnTestWordImg.bind(this);
@@ -40,33 +42,51 @@ class Test extends React.Component {
 		// judge intput if correct , right show it in green , wrong show it in red
 		// this.answer += target.innerHTML;
 		let answerLetter = target.innerHTML;
-		let correctLetter = this.props.word[
-			this.props.word.length - this.letterMark
-		];
+
 		console.log("clicke on ", answerLetter);
-		console.log("correct letter is ", correctLetter);
-		this.testLetterHis.push({
-			target: correctLetter,
-			answer: answerLetter
-		});
+		console.log("correct letter is ", this.targetLetter);
 
 		// ===================================================. TODO
-		// notice store to save click letter history into sate
+		// notice store to save click letter history into state
 
-		if (answerLetter === correctLetter) {
-			console.log("current lettermakr is : ", this.letterMark);
+		// click on right letter need update interface
+		if (answerLetter === this.targetLetter) {
+			console.log("correct letter click on ", answerLetter);
+			console.log("bottomLineNumber is ", this.bottomLineNumber);
+			this.bottomLineNumber -= 1;
+			let tempArray = [];
+			this.testWordLetters.map((letter, i) => {
+				if (i <= this.showLettersNumber - this.bottomLineNumber) {
+					tempArray.push(letter);
+				} else if (letter === " ") {
+					// meet space , over it go next letter
+					tempArray.push(letter);
+				} else {
+					tempArray.push("_");
+				}
+			});
 
-			this.letterMark -= 1;
-			this.forceUpdate();
+			this.showTestWordLetters = tempArray;
 
-			if (this.letterMark === 0) {
+			console.log("showTestWordLetters is ", this.showTestWordLetters);
+			// this.forceUpdate();
+
+			if (this.bottomLineNumber === 0) {
 				// all correnct do next
 				console.log(" correct all letter , got pass");
 				this.showKeyboard = false;
 				this.finishTest();
+			} else {
+				this.forceUpdate();
 			}
 		} else {
-			console.log("wrong letter pick,do nothing yet");
+			// click on wrong letter , record it and do nothing with interface
+			console.log("wrong letter pick,record it");
+			this.testLetterHis.push({
+				target: this.targetLetter,
+				answer: answerLetter
+			});
+			console.log(this.testLetterHis);
 		}
 	}
 	clickOnTestWordImg() {
@@ -78,22 +98,24 @@ class Test extends React.Component {
 			rate: 0.8
 		});
 
-		this.letterMark -= 1;
-		// get char array from word or phrase
-		this.props.word.split("").map((letter, i) => {
-			// console.log(letter, i);
-			if (i <= this.letterMark) {
-				this.showTestWordLetters.push(letter);
+		this.bottomLineNumber += 1;
+		console.log("bottomLineNumber is ", this.bottomLineNumber);
+
+		// edit showTestWordLetters to display
+		let tempArray = [];
+		this.testWordLetters.map((letter, i) => {
+			if (i < this.showLettersNumber - this.bottomLineNumber) {
+				tempArray.push(letter);
+			} else if (letter === " ") {
+				tempArray.push(letter);
 			} else {
-				this.showTestWordLetters.push("_");
+				tempArray.push("_");
 			}
 		});
-		// this.letterMark += 1;
-		// console.log(
-		// 	"for click on word image ,current letter mark is :",
-		// 	this.letterMark
-		// );
-		if (this.letterMark === 0) {
+
+		this.showTestWordLetters = tempArray;
+
+		if (this.bottomLineNumber === this.showLettersNumber) {
 			this.showWordImg = false;
 			this.showKeyboard = true;
 		}
@@ -101,25 +123,23 @@ class Test extends React.Component {
 	}
 
 	render() {
-		// return <p>Testing</p>;
-		// use local word to responds events changing ,
-		// init with state.word;
 		// click on image will make part of it become bottom line
 		// click on test letter will show either correct answer letter or wrong sign
-		let letterOfKeyBoard = [];
-
 		// prepare to show keyboard
 		if (this.showKeyboard) {
-			let targetLetterIndexOfWord =
-				this.props.word.length - this.letterMark;
-			console.log(
-				"option letters make by target letter is : ",
-				this.props.word[targetLetterIndexOfWord]
-			);
+			let letterOfKeyBoard;
+			let targetLetterIndex =
+				this.showLettersNumber - this.bottomLineNumber;
+			this.targetLetter = this.word[targetLetterIndex];
+			if (this.targetLetter !== " ") {
+				letterOfKeyBoard = Utils.makeOptionLettersForCurrentCorrectLetter(
+					this.targetLetter
+				);
+			} else {
+				// meet space , update page go to next letter render
+				this.bottomLineNumber -= 1;
+			}
 
-			letterOfKeyBoard = Utils.makeOptionLettersForCurrentCorrectLetter(
-				this.props.word[targetLetterIndexOfWord]
-			);
 			console.log("letter of keyboard is : ", letterOfKeyBoard);
 
 			// show keyboard for testing word
