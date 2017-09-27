@@ -3,6 +3,44 @@ import Store from "./store.js";
 import myWorker from "./worker.js";
 import * as qwest from "qwest";
 
+function check() {
+	// let url = Config.apiRootUrl + Config.apiLastWordUrl;
+	let url = "https://www.lohosoft.cn/api/abc/last_word";
+	console.log("checking with url : ", url);
+	// qwest.setDefaultDataType("json");
+	qwest
+		.get(url)
+		.then(function(xhr, response) {
+			// ok
+			console.log("ok with response : ", response);
+			if (response.status === "err") {
+				if (response.code === Config.ErrCodeRequest) {
+					// redirect to qr code page
+					window.location.href = "http://www.lohoabc.com";
+					return;
+				} else if (response.code === Config.ErrCodeDB) {
+					alert(Config.DBErrInfo);
+				} else if (response.code === Config.ErrCodeCache) {
+					alert(Config.FatalErrInfo);
+				} else {
+				}
+			} else if (response.status === "ok") {
+				let word = response.data;
+				if (word === []) {
+					// make random word
+				} else {
+					// prepare options for word
+				}
+			}
+		})
+		.catch(function(e, xhr, response) {
+			// error
+			console.log(e);
+			console.log("error with response : ", response);
+			alert(Config.NetErrInfo);
+		});
+}
+
 function getNearWords(word, number, callback) {
 	myWorker.onmessage = function(e) {
 		if (e.data.type === "near") {
@@ -104,6 +142,8 @@ function urlToWord(url) {
 function wordToUrl(word) {
 	return word.replace(/[^A-Za-z0-9]/gi, "_").toLowerCase();
 }
+
+exports.check = check;
 exports.wordToUrl = wordToUrl;
 exports.urlToWord = urlToWord;
 exports.shuffle = shuffle;

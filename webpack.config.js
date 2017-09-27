@@ -106,6 +106,10 @@ module.exports = {
         // ]),
         // hmr
         new webpack.HotModuleReplacementPlugin(),
+        // define global var into projects
+        new webpack.DefinePlugin({
+            DEV: JSON.stringify(true)
+        }),
         // js minimize not working ==================  TODO
         // new webpack.optimize.UglifyJsPlugin({
         //     minimize:true,

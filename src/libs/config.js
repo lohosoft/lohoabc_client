@@ -17,8 +17,9 @@ exports.initialState = {
 	testHis: []
 };
 // logger mark
-const dev = true;
-if (!dev) {
+// const DEV = true;
+console.log("DEV is ", DEV);
+if (!DEV) {
 	console.log = function() {};
 }
 
@@ -29,19 +30,44 @@ exports.ShowHelloDiv = "ShowHelloDiv";
 
 // url
 // http://211.159.217.250:8090/pics/pep-banana-0.jpeg
-if (dev) {
+if (DEV) {
 	exports.RootUrl = "http://211.159.217.250:8090/";
 	exports.WordImgPath = "pics/";
 } else {
-	exports.RootUrl = "http://www.lohosoft.cn/";
+	exports.RootUrl = "http://www.lohosoft.cn/abc/";
 	exports.WordImgPath = "static/pics/";
 }
-const apiRootUrl = "https://lohosoft.cn/api/abc/";
-const postTestHisUrl = "testhis/";
-exports.ApiPostTestHisUrl = apiRootUrl + postTestHisUrl;
+const apiRootUrl = "https://www.lohosoft.cn/api/abc/";
+const apiLastWordUrl = "last_word";
+const apiPostTestHisUrl = "insert_new_word";
+
+const ErrCodeCache = 4030;
+const ErrCodeRequest = 4040;
+const ErrCodeDB = 4050;
+const ErrCodeUserMemNotExist = 4060;
+const ErrCodeNewUserMemExisted = 4070;
+const ErrCodePostRequest = 4080;
+const ErrCodeUid = 4090;
+const ErrCodeWechat = 5000;
+const DBErrInfo = "";
+const FatalErrInfo = "";
+const NetErrInfo = "请检查您的网络连接...";
+exports.NetErrInfo = NetErrInfo;
+exports.DBErrInfo = DBErrInfo;
+exports.FatalErrInfo = FatalErrInfo;
+exports.ErrCodeCache = ErrCodeCache;
+exports.ErrCodeRequest = ErrCodeRequest;
+exports.ErrCodeDB = ErrCodeDB;
+exports.ErrCodeUserMemNotExist = ErrCodeUserMemNotExist;
+exports.ErrCodeNewUserMemExisted = ErrCodeNewUserMemExisted;
+exports.ErrCodePostRequest = ErrCodePostRequest;
+exports.ErrCodeUid = ErrCodeUid;
+exports.ErrCodeWechat = ErrCodeWechat;
+
+exports.ApiPostTestHisUrl = apiRootUrl + apiPostTestHisUrl;
 
 // guess img for word
-exports.dev = dev;
+exports.dev = DEV;
 exports.WordImgGuessLimit = 8;
 exports.OptionsImgsLimit = 4;
 exports.queryNearWordsLimitation = 6;

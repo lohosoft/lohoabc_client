@@ -3,23 +3,13 @@ require("./css/style.css");
 import React from "react";
 import ReactDom from "react-dom";
 import { Provider } from "react-redux";
-import Config from "./libs/config.js";
 import App from "./components/App.js";
 import Store from "./libs/store.js";
-import Handle from "./libs/handle.js";
 import Utils from "./libs/utils.js";
 
-function init() {
-	// if ("ontouchstart" in document.documentElement) {
-	Utils.setScreenHeight();
-	Store.dispatch({ type: Config.ShowOptionsDiv });
-	Handle.prepareNextOptionDataByWord("water");
-	// } else {
-	// 	console.log("show barcode here");
-	// 	Store.dispatch({ type: Config.ShowHelloDiv });
-	// }
-}
-init();
+// get requet for last word , according reply from server to deside where to go
+Utils.setScreenHeight();
+Utils.check();
 
 const app = document.getElementById("app");
 ReactDom.render(

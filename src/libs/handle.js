@@ -48,6 +48,8 @@ function postTestHis(rawData) {
 		});
 }
 
+
+
 function prepareNextOptionDataByWord(word) {
 	// getRawOptionsWords(word);
 	Utils.getNearWords(word, Config.queryNearWordsLimitation, prepareOptions);
