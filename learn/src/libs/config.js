@@ -37,34 +37,24 @@ if (DEV) {
 	exports.RootUrl = "http://www.lohosoft.cn/abc/";
 	exports.WordImgPath = "static/pics/";
 }
-const apiRootUrl = "https://www.lohosoft.cn/api/abc/";
-const apiLastWordUrl = "last_word";
-const apiPostTestHisUrl = "insert_new_word";
+exports.QRCodeUrl = "http://www.lohoabc.com";
+exports.WechatLoginUrl = "https://www.lohosoft.cn/api/abc/wechat/login/learn";
+exports.apiRootUrl = "https://www.lohosoft.cn/api/abc/";
+exports.apiLastWordUrl = "last_word";
+exports.apiPostTestHisUrl = "insert_new_word";
 
-const ErrCodeCache = 4030;
-const ErrCodeRequest = 4040;
-const ErrCodeDB = 4050;
-const ErrCodeUserMemNotExist = 4060;
-const ErrCodeNewUserMemExisted = 4070;
-const ErrCodePostRequest = 4080;
-const ErrCodeUid = 4090;
-const ErrCodeWechat = 5000;
-const DBErrInfo = "";
-const FatalErrInfo = "";
-const NetErrInfo = "请检查您的网络连接...";
-exports.NetErrInfo = NetErrInfo;
-exports.DBErrInfo = DBErrInfo;
-exports.FatalErrInfo = FatalErrInfo;
-exports.ErrCodeCache = ErrCodeCache;
-exports.ErrCodeRequest = ErrCodeRequest;
-exports.ErrCodeDB = ErrCodeDB;
-exports.ErrCodeUserMemNotExist = ErrCodeUserMemNotExist;
-exports.ErrCodeNewUserMemExisted = ErrCodeNewUserMemExisted;
-exports.ErrCodePostRequest = ErrCodePostRequest;
-exports.ErrCodeUid = ErrCodeUid;
-exports.ErrCodeWechat = ErrCodeWechat;
+exports.ErrCodeCache = 4030;
+exports.ErrCodeRequest = 4040;
+exports.ErrCodeDB = 4050;
+exports.ErrCodeUserMemNotExist = 4060;
+exports.ErrCodeNewUserMemExisted = 4070;
+exports.ErrCodePostRequest = 4080;
+exports.ErrCodeUid = 4090;
+exports.ErrCodeWechat = 5000;
+exports.ErrCodeApiConnectionTimeout = 5010;
+exports.ErrCodeUnknown = 8000;
 
-exports.ApiPostTestHisUrl = apiRootUrl + apiPostTestHisUrl;
+exports.apiConnectTimeout = 3000;
 
 // guess img for word
 exports.dev = DEV;

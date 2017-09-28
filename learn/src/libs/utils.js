@@ -1,6 +1,7 @@
 import Config from "./config.js";
 import Store from "./store.js";
-import myWorker from "./worker.js";
+import MyError from "./err.js";
+import MyWorker from "./worker.js";
 import * as qwest from "qwest";
 
 function check() {
@@ -9,19 +10,19 @@ function check() {
 	console.log("checking with url : ", url);
 	// qwest.setDefaultDataType("json");
 	qwest
-		.get(url)
+		.get(url, null, { timeout: Config.apiConnectTimeout })
 		.then(function(xhr, response) {
 			// ok
 			console.log("ok with response : ", response);
 			if (response.status === "err") {
 				if (response.code === Config.ErrCodeRequest) {
 					// redirect to qr code page
-					window.location.href = "http://www.lohoabc.com";
+					MyError.handle(Config.ErrCodeRequest);
 					return;
 				} else if (response.code === Config.ErrCodeDB) {
-					alert(Config.DBErrInfo);
+					MyError.handle(Config.DBErrInfo);
 				} else if (response.code === Config.ErrCodeCache) {
-					alert(Config.FatalErrInfo);
+					MyError.handle(Config.ErrCodeCache);
 				} else {
 				}
 			} else if (response.status === "ok") {
@@ -31,24 +32,27 @@ function check() {
 				} else {
 					// prepare options for word
 				}
+			} else {
+				// unknown error
+				MyError.handle(Config.ErrCodeUnknown);
 			}
 		})
 		.catch(function(e, xhr, response) {
-			// error
-			console.log(e);
+			// error beyond connection timeout
+			console.log(e,xhr);
 			console.log("error with response : ", response);
-			alert(Config.NetErrInfo);
+			MyError.handle(Config.ErrCodeApiConnectionTimeout, url);
 		});
 }
 
 function getNearWords(word, number, callback) {
-	myWorker.onmessage = function(e) {
+	MyWorker.onmessage = function(e) {
 		if (e.data.type === "near") {
 			console.log("worker back nears words data is : ", e.data);
 			callback(e.data);
 		}
 	};
-	myWorker.postMessage({ type: "near", word: word, number: number });
+	MyWorker.postMessage({ type: "near", word: word, number: number });
 }
 
 function mapToJson(map) {

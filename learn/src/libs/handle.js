@@ -1,7 +1,7 @@
 import * as qwest from "qwest";
 import Config from "./config.js";
 import Store from "./store.js";
-import Err from "./err.js";
+import MyError from "./err.js";
 import Utils from "./utils.js";
 // { word: this.word, his: this.testLetterHis };
 function postTestHis(rawData) {
@@ -47,8 +47,6 @@ function postTestHis(rawData) {
 			console.log("error with response : ", response);
 		});
 }
-
-
 
 function prepareNextOptionDataByWord(word) {
 	// getRawOptionsWords(word);
@@ -115,7 +113,7 @@ function prepareOptionData(option, guessTime) {
 			.complete(function() {});
 	} else {
 		// beyond guess time
-		Err.guessWordImg(word);
+		MyError.guessWordImg(word);
 	}
 
 	// console.log("new state is :", state);
