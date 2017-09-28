@@ -1,7 +1,8 @@
 import Config from "./config.js";
-import Store from "./store.js";
 import MyError from "./err.js";
 import MyWorker from "./worker.js";
+import MyHandle from "./handle.js";
+
 import * as qwest from "qwest";
 
 function check() {
@@ -16,22 +17,29 @@ function check() {
 			console.log("ok with response : ", response);
 			if (response.status === "err") {
 				if (response.code === Config.ErrCodeRequest) {
+					// uid not in cookies
 					// redirect to qr code page
 					MyError.handle(Config.ErrCodeRequest);
 					return;
 				} else if (response.code === Config.ErrCodeDB) {
-					MyError.handle(Config.DBErrInfo);
+					// database error in server fatal error ================= TODO
+					MyError.handle(Config.ErrCodeDB);
 				} else if (response.code === Config.ErrCodeCache) {
+					// uid in cookie but not in server uid cache
+					// redirect to login again
 					MyError.handle(Config.ErrCodeCache);
 				} else {
+					// unkown error
+					MyError.handle(Config.ErrCodeUnknown);
 				}
 			} else if (response.status === "ok") {
 				let word = response.data;
 				if (word === []) {
 					// make random word
-				} else {
-					// prepare options for word
+					// callback is 					MyHandle.prepareNextOptionDataByWord(word);
+					makeRandomWord();
 				}
+				// prepare data for word
 			} else {
 				// unknown error
 				MyError.handle(Config.ErrCodeUnknown);
@@ -39,12 +47,20 @@ function check() {
 		})
 		.catch(function(e, xhr, response) {
 			// error beyond connection timeout
-			console.log(e,xhr);
-			console.log("error with response : ", response);
+			console.log(e, xhr);
 			MyError.handle(Config.ErrCodeApiConnectionTimeout, url);
 		});
 }
-
+function makeRandomWord() {
+	MyWorker.onmessage = function(e) {
+		if (e.data.type === "random_word") {
+			console.log("worker back random word data is : ", e.data);
+			MyHandle.prepareNextOptionDataByWord(word);
+		}
+	};
+	let order = getRandomInt(1, 690);
+	MyWorker.postMessage({ type: "random_word", order: order });
+}
 function getNearWords(word, number, callback) {
 	MyWorker.onmessage = function(e) {
 		if (e.data.type === "near") {

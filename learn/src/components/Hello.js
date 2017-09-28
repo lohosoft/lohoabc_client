@@ -2,29 +2,23 @@ import React from "react";
 import { connect } from "react-redux";
 
 class Hello extends React.Component {
-	componentDidMount() {
-		// this.props.hello();
-	}
-	render() {
-		return (
-			<div className="qrcodeDiv">
-				<img src="./qrcode_for_lohoabc_ip.png" />
-			</div>
-		);
-	}
+    componentDidMount() {
+        // this.props.hello();
+    }
+    render() {
+        return (
+            <div className="helloDiv">
+                <p>正在载入...</p>
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = state => {
-	return {};
+    return {};
 };
 
 const mapDispatchToProps = dispatch => {
-	return {
-		getClick: target =>
-			dispatch({
-				type: "ClickONHello",
-				payload: target
-			})
-	};
+    return {};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Hello);

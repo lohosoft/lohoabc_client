@@ -23,6 +23,10 @@ self.onmessage = function(e) {
 		let word = data.word;
 		let number = data.number;
 		queryNearWords(word, number);
+	} else if (data.type === "random_word") {
+		let order = data.order;
+		let word = graph.nodes()[order];
+		self.postMessage({ type: "random_word", word: word });
 	}
 };
 // =================  bug here TODO ====================

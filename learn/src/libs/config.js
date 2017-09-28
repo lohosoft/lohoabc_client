@@ -1,4 +1,5 @@
 exports.initialState = {
+	reConnectCountDown:0,
 	// div show control
 	optioning: false,
 	testing: false,
@@ -52,10 +53,10 @@ exports.ErrCodePostRequest = 4080;
 exports.ErrCodeUid = 4090;
 exports.ErrCodeWechat = 5000;
 exports.ErrCodeApiConnectionTimeout = 5010;
+exports.ErrCodeOverOptionImgGuessTime = 5020;
 exports.ErrCodeUnknown = 8000;
 
 exports.apiConnectTimeout = 3000;
-
 // guess img for word
 exports.dev = DEV;
 exports.WordImgGuessLimit = 8;
@@ -65,6 +66,8 @@ exports.GotWordImg = "GotWordImg";
 exports.GuessWordImgTimout = 1000;
 exports.PrepareTransForWord = "PrepareTransForWord";
 exports.AddNewOptionData = "AddNewOptionData";
+exports.ReConnectCountDown = "ReConnectCountDown";
+
 // click event
 exports.ClickOnOptionImg = "ClickOnOptionImg";
 exports.SaveTestHis = "SaveTestHis";

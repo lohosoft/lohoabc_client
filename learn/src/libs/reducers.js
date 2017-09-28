@@ -1,18 +1,21 @@
 import Config from "./config.js";
-import Store from "./store.js";
 import Utils from "./utils.js";
-import Handle from "./handle.js";
+import MyHandle from "./handle.js";
 
 // const request = require("superagent");
 import * as qwest from "qwest";
 
 export default function reducer(state, action) {
 	switch (action.type) {
+		case Config.ReConnectCountDown:
+			let number = action.payload;
+			state = { ...state, reConnectCountDown: number };
+			return state;
 		case Config.SaveTestHis: {
 			let data = action.payload;
-			let newTestHis = state.testHis.concat({data});
+			let newTestHis = state.testHis.concat({ data });
 			state = { ...state, testHis: newTestHis };
-			Handle.postTestHis(data);
+			MyHandle.postTestHis(data);
 			return state;
 		}
 		case Config.ClickOnOptionImg: {
@@ -33,7 +36,7 @@ export default function reducer(state, action) {
 				optionsData: [],
 				optionsWords: []
 			};
-			Handle.prepareNextOptionDataByWord(word);
+			MyHandle.prepareNextOptionDataByWord(word);
 			return state;
 		}
 		case Config.AddNewOptionData: {

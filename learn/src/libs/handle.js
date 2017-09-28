@@ -3,6 +3,23 @@ import Config from "./config.js";
 import Store from "./store.js";
 import MyError from "./err.js";
 import Utils from "./utils.js";
+// handleTimeoutError("last_word");
+function handleTimeoutError(errdata) {
+	if (errdata.indexOf("last_word") !== -1) {
+		// handle get last word timeout error
+		let begin = setInterval(countDown, 1000);
+		let count = 6;
+		function countDown() {
+			count -= 1;
+			Store.dispatch({ type: Config.ReConnectCountDown, payload: count });
+			console.log(count);
+			if (count <= 0) {
+				clearInterval(begin);
+				Utils.check();
+			}
+		}
+	}
+}
 // { word: this.word, his: this.testLetterHis };
 function postTestHis(rawData) {
 	// process raw data into json data
@@ -113,11 +130,11 @@ function prepareOptionData(option, guessTime) {
 			.complete(function() {});
 	} else {
 		// beyond guess time
-		MyError.guessWordImg(word);
+		MyError.handle(Config.ErrCodeOverOptionImgGuessTime, word);
 	}
 
 	// console.log("new state is :", state);
 }
-
+exports.handleTimeoutError = handleTimeoutError;
 exports.prepareNextOptionDataByWord = prepareNextOptionDataByWord;
 exports.postTestHis = postTestHis;
