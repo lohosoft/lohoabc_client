@@ -3,7 +3,11 @@ import Config from "./config.js";
 import Store from "./store.js";
 import MyError from "./err.js";
 import Utils from "./utils.js";
-// handleTimeoutError("last_word");
+
+function showOptionsDiv() {
+	Store.dispatch({ type: Config.ShowOptionsDiv });
+}
+
 function handleTimeoutError(errdata) {
 	if (errdata.indexOf("last_word") !== -1) {
 		// handle get last word timeout error
@@ -66,7 +70,6 @@ function postTestHis(rawData) {
 }
 
 function prepareNextOptionDataByWord(word) {
-	// getRawOptionsWords(word);
 	Utils.getNearWords(word, Config.queryNearWordsLimitation, prepareOptions);
 }
 
@@ -87,6 +90,7 @@ function prepareOptionData(option, guessTime) {
 	let trans = option.trans;
 	// check if word img got already
 	console.log("prepare option data for :", word);
+	console.log("for time : ", guessTime);
 	let state = Store.getState();
 	if (
 		state.optionsWords.indexOf(word) === -1 &&
@@ -125,7 +129,7 @@ function prepareOptionData(option, guessTime) {
 					"guess word image not exist on server err :",
 					xhr.status
 				);
-				prepareOptionImgData(word, guessTime + 1);
+				prepareOptionData(option, guessTime + 1);
 			})
 			.complete(function() {});
 	} else {
@@ -135,6 +139,7 @@ function prepareOptionData(option, guessTime) {
 
 	// console.log("new state is :", state);
 }
+exports.showOptionsDiv = showOptionsDiv;
 exports.handleTimeoutError = handleTimeoutError;
 exports.prepareNextOptionDataByWord = prepareNextOptionDataByWord;
 exports.postTestHis = postTestHis;

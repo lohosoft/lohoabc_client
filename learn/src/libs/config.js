@@ -1,5 +1,5 @@
 exports.initialState = {
-	reConnectCountDown:0,
+	reConnectCountDown: 0,
 	// div show control
 	optioning: false,
 	testing: false,
@@ -31,13 +31,9 @@ exports.ShowHelloDiv = "ShowHelloDiv";
 
 // url
 // http://211.159.217.250:8090/pics/pep-banana-0.jpeg
-if (DEV) {
-	exports.RootUrl = "http://211.159.217.250:8090/";
-	exports.WordImgPath = "pics/";
-} else {
-	exports.RootUrl = "http://www.lohosoft.cn/abc/";
-	exports.WordImgPath = "static/pics/";
-}
+exports.RootUrl = "https://www.lohosoft.cn/abc/";
+exports.WordImgPath = "static/pics/";
+
 exports.QRCodeUrl = "http://www.lohoabc.com";
 exports.WechatLoginUrl = "https://www.lohosoft.cn/api/abc/wechat/login/learn";
 exports.apiRootUrl = "https://www.lohosoft.cn/api/abc/";

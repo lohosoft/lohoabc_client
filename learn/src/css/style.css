@@ -7,72 +7,91 @@ body {
     overflow: hidden;
     background-color: #6ab630;
 }
-#app,
-.helloDiv,
-.infoDiv,
-.testDiv,
-.testWordDiv,
-.testWordTransDiv,
-.testWordImgDiv,
-.optionDiv,
-.testFinishDiv {
+#app, .helloDiv, .infoDiv {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.helloDiv,
-.testWordImgDiv,
-.testFinishDiv,
-.testDiv {
-    height: auto;
+#app {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.helloDiv {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
 }
+.helloDiv p {
+    color: white;
+    font-size: 1.5em;
+}
+.infoDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8%;
+    width: 100%;
+    background-color: rgba(236, 100, 75, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.infoDiv p {
+    color: white;
+}
+.testDiv {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /*flex-wrap: wrap;*/
+    /*align-self: stretch;*/
+}
 
-.infoDiv,
 .testWordDiv {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-}
-.infoDiv {
-    height: 8%;
-    background-color: rgba(236, 100, 75, 0.6);
-}
-.testWordDiv {
-    height: 12%;
+    height: 10%;
+    width: 100%;
     background-color: white;
-}
-
-.helloDiv p {
-    color: white;
-    font-size: 1.5em;
-}
-.infoDiv p {
-    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .testWordDiv p {
-    font-size: 3em;
+    font-size: 2.5em;
     color: #6ab630;
 }
 
 .testWordDiv span {
-    padding-left: 3%;
+    padding-left: 3 %;
     padding-right: 3%;
 }
 
 .testWordTransDiv {
     position: fixed;
-    top: 12%;
+    top: 10%;
+    width: 100%;
     left: 0;
     right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .testWordTransDiv p {
     color: white;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 
 .testKeyboard {
@@ -83,10 +102,10 @@ body {
 }
 
 .testKeyboard span {
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 8%;
+    padding-right: 8%;
     background-color: white;
-    font-size: 4em;
+    font-size: 3.5em;
     color: #6ab630;
     margin-left: 10%;
     margin-right: 10%;
@@ -95,20 +114,46 @@ body {
     border-radius: 5px;
 }
 
+.testWordImgDiv {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .testImg {
     background-color: white;
-    padding: 3%;
-    width: 80%;
+
+    padding: 2%;
+    width: 75%;
     height: auto;
 }
 
+.testFinishDiv {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .testFinishDiv p {
-    font-size: 6em;
+    font-size: 5em;
     color: white;
 }
 
+/*==================================*/
+
 .optionDiv {
+    width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*flex-direction: column;*/
     flex-wrap: wrap;
 }
 
@@ -121,4 +166,5 @@ body {
     margin-bottom: 6%;
     margin-left: 2%;
     margin-right: 2%;
+    /*align-self: center;*/
 }

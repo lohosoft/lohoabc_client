@@ -33,13 +33,16 @@ function check() {
 					MyError.handle(Config.ErrCodeUnknown);
 				}
 			} else if (response.status === "ok") {
+				MyHandle.showOptionsDiv();
 				let word = response.data;
-				if (word === []) {
+				if (word.length === 0) {
 					// make random word
 					// callback is 					MyHandle.prepareNextOptionDataByWord(word);
 					makeRandomWord();
+				} else {
+					// got last work , prepare options for it
+					MyHandle.prepareNextOptionDataByWord(word);
 				}
-				// prepare data for word
 			} else {
 				// unknown error
 				MyError.handle(Config.ErrCodeUnknown);
@@ -52,10 +55,11 @@ function check() {
 		});
 }
 function makeRandomWord() {
+	console.log("make random word");
 	MyWorker.onmessage = function(e) {
 		if (e.data.type === "random_word") {
 			console.log("worker back random word data is : ", e.data);
-			MyHandle.prepareNextOptionDataByWord(word);
+			MyHandle.prepareNextOptionDataByWord(e.data.word);
 		}
 	};
 	let order = getRandomInt(1, 690);

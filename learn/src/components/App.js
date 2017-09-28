@@ -15,7 +15,7 @@ class App extends React.Component {
 			if (this.props.reConnectCountDown > 0) {
 				return (
 					<div>
-						<div className="infoDiv">
+						<div className="infoDiv" id="infoDiv">
 							<p>
 								{"网络连接断开，" +
 									this.props.reConnectCountDown +
@@ -33,7 +33,7 @@ class App extends React.Component {
 			if (this.props.reConnectCountDown > 0) {
 				return (
 					<div>
-						<div className="infoDiv">
+						<div className="infoDiv" id="infoDiv">
 							<p>
 								{"网络连接断开，" +
 									this.props.reConnectCountDown +
@@ -51,7 +51,7 @@ class App extends React.Component {
 			if (this.props.reConnectCountDown > 0) {
 				return (
 					<div>
-						<div className="infoDiv">
+						<div className="infoDiv" id="infoDiv">
 							<p>
 								{"网络连接断开，" +
 									this.props.reConnectCountDown +
