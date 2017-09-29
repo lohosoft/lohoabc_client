@@ -11,7 +11,7 @@ function check() {
 	console.log("checking with url : ", url);
 	// qwest.setDefaultDataType("json");
 	qwest
-		.get(url, null, { timeout: Config.apiConnectTimeout })
+		.get(url, null, { timeout: Config.apiGetTimeout })
 		.then(function(xhr, response) {
 			// ok
 			console.log("ok with response : ", response);
@@ -20,7 +20,6 @@ function check() {
 					// uid not in cookies
 					// redirect to qr code page
 					MyError.handle(Config.ErrCodeRequest);
-					return;
 				} else if (response.code === Config.ErrCodeDB) {
 					// database error in server fatal error ================= TODO
 					MyError.handle(Config.ErrCodeDB);

@@ -25,7 +25,11 @@ function handleTimeoutError(errdata) {
 	}
 }
 // { word: this.word, his: this.testLetterHis };
-function postTestHis(rawData) {
+function postNewWordScore(rawData, tryTime) {
+	if (tryTime >= Config.MostPostTryTime) {
+		MyError.handle(Config.ErrCodeOverApiTryTime);
+		return;
+	}
 	// process raw data into json data
 	// then post it
 	console.log("handle test his data : ", rawData);
@@ -54,18 +58,42 @@ function postTestHis(rawData) {
 		}
 	});
 	console.log("handled result is : ", res1);
-	let postdata = { word: word, his: res1 };
+	let postdata = { word: word, records: res1 };
 
 	qwest.setDefaultDataType("json");
 	qwest
-		.post(Config.ApiPostTestHisUrl, postdata)
+		.post(Config.ApiPostTestHisUrl, postdata, {
+			timeout: Config.apiPostTimeout
+		})
 		.then(function(xhr, response) {
 			// ok
 			console.log("ok with response : ", response);
+			if (response.status === "err") {
+				if (response.code === Config.ErrCodeRequest) {
+					// uid not in cookies
+					// redirect to qr code page
+					MyError.handle(Config.ErrCodeRequest);
+				} else if (response.code === Config.ErrCodeDB) {
+					// database error in server fatal error ================= TODO
+					MyError.handle(Config.ErrCodeDB);
+				} else if (response.code === Config.ErrCodeCache) {
+					// uid in cookie but not in server uid cache
+					// redirect to login again
+					MyError.handle(Config.ErrCodeCache);
+				} else {
+					// unkown error
+					MyError.handle(Config.ErrCodeUnknown);
+				}
+			} else if (response.status === "ok") {
+				// success , do nothing
+			} else {
+				MyError.handle(Config.ErrCodeUnknown);
+			}
 		})
 		.catch(function(e, xhr, respose) {
-			// error
-			console.log("error with response : ", response);
+			// error beyond connection timeout
+			console.log(e, xhr);
+			postNewWordScore(rawData, tryTime + 1);
 		});
 }
 
@@ -142,4 +170,4 @@ function prepareOptionData(option, guessTime) {
 exports.showOptionsDiv = showOptionsDiv;
 exports.handleTimeoutError = handleTimeoutError;
 exports.prepareNextOptionDataByWord = prepareNextOptionDataByWord;
-exports.postTestHis = postTestHis;
+exports.postNewWordScore = postNewWordScore;

@@ -38,7 +38,7 @@ exports.QRCodeUrl = "http://www.lohoabc.com";
 exports.WechatLoginUrl = "https://www.lohosoft.cn/api/abc/wechat/login/learn";
 exports.apiRootUrl = "https://www.lohosoft.cn/api/abc/";
 exports.apiLastWordUrl = "last_word";
-exports.apiPostTestHisUrl = "insert_new_word";
+exports.apiPostTestHisUrl = "insert_new_word_score";
 
 exports.ErrCodeCache = 4030;
 exports.ErrCodeRequest = 4040;
@@ -51,8 +51,10 @@ exports.ErrCodeWechat = 5000;
 exports.ErrCodeApiConnectionTimeout = 5010;
 exports.ErrCodeOverOptionImgGuessTime = 5020;
 exports.ErrCodeUnknown = 8000;
-
-exports.apiConnectTimeout = 3000;
+exports.ErrCodeOverApiTryTime = 9000;
+exports.apiGetTimeout = 3000;
+exports.apiPostTimeout = 5000;
+exports.MostPostTryTime = 5;
 // guess img for word
 exports.dev = DEV;
 exports.WordImgGuessLimit = 8;
@@ -66,5 +68,5 @@ exports.ReConnectCountDown = "ReConnectCountDown";
 
 // click event
 exports.ClickOnOptionImg = "ClickOnOptionImg";
-exports.SaveTestHis = "SaveTestHis";
+exports.PostNewWordScore = "PostNewWordScore";
 exports.optionLetterLimitTemporary = 4;

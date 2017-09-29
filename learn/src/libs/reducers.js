@@ -11,11 +11,9 @@ export default function reducer(state, action) {
 			let number = action.payload;
 			state = { ...state, reConnectCountDown: number };
 			return state;
-		case Config.SaveTestHis: {
+		case Config.PostNewWordScore: {
 			let data = action.payload;
-			let newTestHis = state.testHis.concat({ data });
-			state = { ...state, testHis: newTestHis };
-			MyHandle.postTestHis(data);
+			MyHandle.postNewWordScore(data, 0);
 			return state;
 		}
 		case Config.ClickOnOptionImg: {

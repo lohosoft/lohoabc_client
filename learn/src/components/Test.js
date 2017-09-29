@@ -41,7 +41,7 @@ class Test extends React.Component {
 		// just keep simple record history ==============  TODO
 		let payload = { word: this.word, his: this.simpleTestLetterHis };
 		Store.dispatch({
-			type: Config.SaveTestHis,
+			type: Config.PostNewWordScore,
 			payload: payload
 		});
 		this.showCorrectSign = true;

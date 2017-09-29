@@ -7,18 +7,23 @@ body {
     overflow: hidden;
     background-color: #6ab630;
 }
-#app, .helloDiv, .infoDiv {
+
+#app,
+.helloDiv,
+.infoDiv {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 #app {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .helloDiv {
     width: 100%;
     display: flex;
@@ -26,10 +31,12 @@ body {
     align-items: center;
     flex-direction: column;
 }
+
 .helloDiv p {
     color: white;
     font-size: 1.5em;
 }
+
 .infoDiv {
     position: fixed;
     top: 0;
@@ -42,9 +49,11 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .infoDiv p {
     color: white;
 }
+
 .testDiv {
     width: 100%;
     display: flex;
@@ -60,27 +69,30 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 10%;
+    height: 12%;
     width: 100%;
     background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
 }
 
 .testWordDiv p {
-    font-size: 2.5em;
+    font-size: 1.8em;
     color: #6ab630;
+    display: inline;
 }
 
 .testWordDiv span {
-    padding-left: 3 %;
-    padding-right: 3%;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    display: inline;
 }
 
 .testWordTransDiv {
     position: fixed;
-    top: 10%;
+    top: 12%;
     width: 100%;
     left: 0;
     right: 0;
@@ -91,7 +103,7 @@ body {
 
 .testWordTransDiv p {
     color: white;
-    font-size: 1.2em;
+    font-size: 1.0em;
 }
 
 .testKeyboard {
@@ -144,6 +156,11 @@ body {
     font-size: 5em;
     color: white;
 }
+
+
+
+
+
 
 /*==================================*/
 
