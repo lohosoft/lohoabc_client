@@ -1,9 +1,24 @@
 exports.initialState = {
 	reConnectCountDown: 0,
 	// div show control
-	fetching: true,
-	reporting: false,
-	wordsRecords: []
+	fetching: false,
+	reporting: true,
+	wordsRecords: [
+		{
+			id: 13,
+			records: "[0,0,0,0,0,0,1,0]",
+			ts: "2017-09-29T23:22:45.000Z",
+			uid: "o5l94wEyxCNR7CqRXVgAeOq5z2dg",
+			word: "turn left"
+		},
+		{
+			id: 14,
+			records: "[0,0,0,0]",
+			ts: "2017-09-29T23:24:22.000Z",
+			uid: "o5l94wEyxCNR7CqRXVgAeOq5z2dg",
+			word: "roll"
+		}
+	]
 };
 // logger mark
 // const DEV = true;

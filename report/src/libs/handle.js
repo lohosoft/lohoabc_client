@@ -6,13 +6,12 @@ import Utils from "./utils.js";
 
 function handleTimeoutError(errdata) {}
 function showReportDiv(rawData) {
-	let words = rawData.data;
-	if (words.length === 0) {
+	if (rawData === 0) {
 		// not start learn yet
 	} else {
-		console.log(words);
+		console.log("rawData for report div : ", rawData);
 	}
-	Store.dispatch({ type: Config.ShowReportDiv, payload: words });
+	Store.dispatch({ type: Config.ShowReportDiv, payload: rawData });
 }
 exports.handleTimeoutError = handleTimeoutError;
 exports.showReportDiv = showReportDiv;

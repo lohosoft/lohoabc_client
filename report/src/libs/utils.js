@@ -31,7 +31,7 @@ function check() {
 					MyError.handle(Config.ErrCodeUnknown);
 				}
 			} else if (response.status === "ok") {
-				MyHandle.showReportDiv(response);
+				MyHandle.showReportDiv(response.data);
 			} else {
 				// unknown error
 				MyError.handle(Config.ErrCodeUnknown);

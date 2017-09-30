@@ -7,9 +7,9 @@ import Store from "./libs/store.js";
 import Utils from "./libs/utils.js";
 
 // get requet for last word , according reply from server to deside where to go
-Utils.setScreenHeight();
+// Utils.setScreenHeight();
 // get worker some time to init
-setTimeout(Utils.check(), 2000);
+// setTimeout(Utils.check(), 2000);
 
 const app = document.getElementById("app");
 ReactDom.render(
