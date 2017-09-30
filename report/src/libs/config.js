@@ -1,7 +1,9 @@
 exports.initialState = {
 	reConnectCountDown: 0,
 	// div show control
-	fetching: true
+	fetching: true,
+	reporting: false,
+	wordsRecords: []
 };
 // logger mark
 // const DEV = true;
@@ -11,12 +13,12 @@ if (!DEV) {
 }
 
 exports.hasWorker = true;
-
+exports.ShowHelloDiv = "ShowHelloDiv";
+exports.ShowReportDiv = "ShowReportDiv";
 exports.QRCodeUrl = "http://www.lohoabc.com";
-exports.WechatLoginUrl = "https://www.lohosoft.cn/api/abc/wechat/report/learn";
+exports.WechatLoginUrl = "https://www.lohosoft.cn/api/abc/wechat/login/report";
 exports.apiRootUrl = "https://www.lohosoft.cn/api/abc/";
 exports.apiAllWordsUrl = "all_words";
-
 exports.ErrCodeCache = 4030;
 exports.ErrCodeRequest = 4040;
 exports.ErrCodeDB = 4050;
@@ -27,7 +29,6 @@ exports.ErrCodeApiConnectionTimeout = 5010;
 exports.ErrCodeOverOptionImgGuessTime = 5020;
 exports.ErrCodeUnknown = 8000;
 exports.ErrCodeOverApiTryTime = 9000;
-exports.apiGetTimeout = 3000;
+exports.apiGetTimeout = 5000;
 exports.dev = DEV;
 exports.ReConnectCountDown = "ReConnectCountDown";
-

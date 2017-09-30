@@ -33,13 +33,13 @@ function check() {
 				}
 			} else if (response.status === "ok") {
 				MyHandle.showOptionsDiv();
-				let word = response.data;
-				if (word.length === 0) {
+				if (response.data.length === 0) {
 					// make random word
 					// callback is 					MyHandle.prepareNextOptionDataByWord(word);
 					makeRandomWord();
 				} else {
 					// got last work , prepare options for it
+					let word = response.data[0].word;
 					MyHandle.prepareNextOptionDataByWord(word);
 				}
 			} else {
@@ -166,6 +166,7 @@ function wordToUrl(word) {
 	return word.replace(/[^A-Za-z0-9]/gi, "_").toLowerCase();
 }
 
+exports.makeRandomWord = makeRandomWord;
 exports.check = check;
 exports.wordToUrl = wordToUrl;
 exports.urlToWord = urlToWord;

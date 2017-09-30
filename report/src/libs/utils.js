@@ -1,6 +1,5 @@
 import Config from "./config.js";
 import MyError from "./err.js";
-import MyWorker from "./worker.js";
 import MyHandle from "./handle.js";
 
 import * as qwest from "qwest";
@@ -32,15 +31,7 @@ function check() {
 					MyError.handle(Config.ErrCodeUnknown);
 				}
 			} else if (response.status === "ok") {
-				MyHandle.showOptionsDiv();
-				let words = response.data;
-				if (words.length === 0) {
-					// not start learn yet
-				} else {
-					// got all learned words
-					// ====================. TODO
-					console.log(words);
-				}
+				MyHandle.showReportDiv(response);
 			} else {
 				// unknown error
 				MyError.handle(Config.ErrCodeUnknown);

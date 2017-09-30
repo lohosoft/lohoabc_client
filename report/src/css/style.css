@@ -4,6 +4,23 @@ body {
     left: 0;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    background-color: #6ab630;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    /*background-color: #6ab630;*/
+}
+
+.greenLetter {
+    color: green;
+}
+
+.blueLetter {
+    color: blue;
+}
+
+.yellowLetter {
+    color: yellow;
+}
+
+.redLetter {
+    color: red;
 }

@@ -28,6 +28,7 @@ exports.hasWorker = true;
 exports.ShowOptionsDiv = "ShowOptionsDiv";
 exports.ShowTestDiv = "ShowTestDiv";
 exports.ShowHelloDiv = "ShowHelloDiv";
+exports.ReloadOptions = "ReloadOptions";
 
 // url
 // http://211.159.217.250:8090/pics/pep-banana-0.jpeg

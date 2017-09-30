@@ -62,7 +62,7 @@ function postNewWordScore(rawData, tryTime) {
 
 	qwest.setDefaultDataType("json");
 	qwest
-		.post(Config.ApiPostTestHisUrl, postdata, {
+		.post(Config.apiRootUrl + Config.apiPostTestHisUrl, postdata, {
 			timeout: Config.apiPostTimeout
 		})
 		.then(function(xhr, response) {

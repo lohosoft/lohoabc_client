@@ -1,9 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Hello from "./Hello.js";
-import Test from "./Test.js";
-import Options from "./Options.js";
-import Info from "./Info.js";
+import Report from "./Report.js";
 
 class App extends React.Component {
 	constructor(props) {
@@ -29,7 +27,7 @@ class App extends React.Component {
 				return <Hello />;
 			}
 		}
-		if (this.props.optioning) {
+		if (this.props.reporting) {
 			if (this.props.reConnectCountDown > 0) {
 				return (
 					<div>
@@ -40,29 +38,11 @@ class App extends React.Component {
 									" 秒后尝试重新连接"}
 							</p>
 						</div>
-						<Options />
+						<Report />
 					</div>
 				);
 			} else {
-				return <Options />;
-			}
-		}
-		if (this.props.testing) {
-			if (this.props.reConnectCountDown > 0) {
-				return (
-					<div>
-						<div className="infoDiv" id="infoDiv">
-							<p>
-								{"网络连接断开，" +
-									this.props.reConnectCountDown +
-									" 秒后尝试重新连接"}
-							</p>
-						</div>
-						<Test />
-					</div>
-				);
-			} else {
-				return <Test />;
+				return <Report />;
 			}
 		}
 	}
@@ -72,8 +52,7 @@ const mapStateToProps = state => {
 	return {
 		reConnectCountDown: state.reConnectCountDown,
 		fetching: state.fetching,
-		optioning: state.optioning,
-		testing: state.testing
+		reporting: state.reporting
 	};
 };
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import Store from "../libs/store.js";
 import Config from "../libs/config.js";
 import Utils from "../libs/utils.js";
 
@@ -8,6 +9,9 @@ class Options extends React.Component {
 		super(props);
 	}
 	componentDidMount() {}
+	reloadOptions() {
+		Store.dispatch({ type: Config.ReloadOptions });
+	}
 	render() {
 		// return <p onClick={e => this.props.getClick(e.target)}> Options </p>;
 
@@ -24,7 +28,19 @@ class Options extends React.Component {
 			);
 		});
 
-		return <div className="optionDiv">{imgsHtml}</div>;
+		return (
+			<div className="optionDiv">
+				<div className="optionImgsDiv">{imgsHtml}</div>
+				<div>
+					<p
+						onClick={e => this.reloadOptions()}
+						className="reloadOptionsBtnP"
+					>
+						换一换
+					</p>
+				</div>
+			</div>
+		);
 	}
 }
 

@@ -93,11 +93,22 @@ class Test extends React.Component {
 				this.showKeyboard = false;
 				this.finishTest();
 			} else {
+				// back to green color as init
+				console.log(target.parentNode.childNodes);
+				let letters = target.parentNode.childNodes;
+				for (var i = letters.length - 1; i >= 0; i--) {
+					letters[i].style.color = "#6ab630";
+				}
+				// target.parentNode.childNodes.map(
+				// 	dom => (dom.style.color = "#6ab630")
+				// );
 				this.forceUpdate();
 			}
 		} else {
 			// click on wrong letter , record it and do nothing with interface
-			console.log("wrong letter pick,record it");
+			console.log("wrong letter pick,record it : ", target);
+			// wrong letter become red
+			target.style.color = "red";
 			this.simpleTestLetterHis.push(1);
 			this.fineTestLetterHis.push({
 				target: this.targetLetter,

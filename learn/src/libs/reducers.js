@@ -7,6 +7,10 @@ import * as qwest from "qwest";
 
 export default function reducer(state, action) {
 	switch (action.type) {
+		case Config.ReloadOptions:
+			state = { ...state, optionsData: [], optionsWords: [] };
+			Utils.makeRandomWord();
+			return state;
 		case Config.ReConnectCountDown:
 			let number = action.payload;
 			state = { ...state, reConnectCountDown: number };

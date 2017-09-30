@@ -10,7 +10,17 @@ export default function reducer(state, action) {
 		case Config.ShowHelloDiv: {
 			state = {
 				...state,
-				fetching: true
+				fetching: true,
+				reporting: false
+			};
+			return state;
+		}
+		case Config.ShowReportDiv: {
+			state = {
+				...state,
+				fetching: false,
+				reporting: true,
+				wordsRecords: action.payload
 			};
 			return state;
 		}
