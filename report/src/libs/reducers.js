@@ -16,11 +16,15 @@ export default function reducer(state, action) {
 			return state;
 		}
 		case Config.ShowReportDiv: {
+			state = { ...state, fetching: false, reporting: true };
+			return state;
+		}
+		case Config.PrepareReportData: {
+			let newWordsRecords = action.payload;
+			let oldWordsRecords = state.wordsRecords;
 			state = {
 				...state,
-				fetching: false,
-				reporting: true,
-				wordsRecords: action.payload
+				wordsRecords: oldWordsRecords.concat(newWordsRecords)
 			};
 			return state;
 		}

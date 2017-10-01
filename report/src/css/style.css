@@ -4,9 +4,71 @@ body {
     left: 0;
     margin: 0;
     padding: 0;
-    overflow-y: scroll;
+    width: 100%;
+    /*overflow-y: scroll;*/
     overflow-x: hidden;
     /*background-color: #6ab630;*/
+}
+
+.app,
+.helloDiv,
+.wordsRecordsDiv,
+.wordRecordsDiv,
+.wordRecordsWordDiv,
+.wordRecordsTransDiv {
+    width: 100%;
+}
+
+.helloDiv {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #6ab630;
+}
+
+.helloDiv p {
+    color: white;
+    font-size: 1.2em;
+}
+
+.noHistoryDiv {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.noHistoryDiv p {
+    font-size: 1.2em;
+    color: #6ab630;
+}
+
+.wordsRecordsDiv {
+    border-top: 0.5px solid #6ab630;
+    border-bottom: 0.5px solid #6ab630;
+}
+
+.wordRecordsTransDiv {
+    color: #6ab630;
+    padding-top: 0.5px;
+    padding-bottom: 0.5px;
+}
+
+.wordRecordsDiv {
+    border-bottom: 1px dashed #6ab630;
+    padding-top: 5px;
+}
+
+.wordRecordsDiv span {
+    font-size: 2em;
+    padding: 1%;
+}
+
+.wordRecordsDiv p,
+.wordRecordsWordDiv {
+    margin-left: 5%;
 }
 
 .greenLetter {
@@ -18,7 +80,7 @@ body {
 }
 
 .yellowLetter {
-    color: yellow;
+    color: #f89406;
 }
 
 .redLetter {

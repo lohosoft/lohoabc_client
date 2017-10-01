@@ -38,11 +38,11 @@ class App extends React.Component {
 									" 秒后尝试重新连接"}
 							</p>
 						</div>
-						<Report />
+						<Report wordsRecords={this.props.wordsRecords} />
 					</div>
 				);
 			} else {
-				return <Report />;
+				return <Report wordsRecords={this.props.wordsRecords} />;
 			}
 		}
 	}

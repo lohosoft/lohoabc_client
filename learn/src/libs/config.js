@@ -35,7 +35,7 @@ exports.ReloadOptions = "ReloadOptions";
 exports.RootUrl = "https://www.lohosoft.cn/abc/";
 exports.WordImgPath = "static/pics/";
 
-exports.QRCodeUrl = "http://www.lohoabc.com";
+exports.QRCodeUrl = "https://www.lohoabc.cn";
 exports.WechatLoginUrl = "https://www.lohosoft.cn/api/abc/wechat/login/learn";
 exports.apiRootUrl = "https://www.lohosoft.cn/api/abc/";
 exports.apiLastWordUrl = "last_word";

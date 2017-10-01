@@ -1,24 +1,9 @@
 exports.initialState = {
 	reConnectCountDown: 0,
 	// div show control
-	fetching: false,
-	reporting: true,
-	wordsRecords: [
-		{
-			id: 13,
-			records: "[0,0,0,0,0,0,1,0]",
-			ts: "2017-09-29T23:22:45.000Z",
-			uid: "o5l94wEyxCNR7CqRXVgAeOq5z2dg",
-			word: "turn left"
-		},
-		{
-			id: 14,
-			records: "[0,0,0,0]",
-			ts: "2017-09-29T23:24:22.000Z",
-			uid: "o5l94wEyxCNR7CqRXVgAeOq5z2dg",
-			word: "roll"
-		}
-	]
+	fetching: true,
+	reporting: false,
+	wordsRecords: []
 };
 // logger mark
 // const DEV = true;
@@ -30,7 +15,8 @@ if (!DEV) {
 exports.hasWorker = true;
 exports.ShowHelloDiv = "ShowHelloDiv";
 exports.ShowReportDiv = "ShowReportDiv";
-exports.QRCodeUrl = "http://www.lohoabc.com";
+exports.PrepareReportData = "PrepareReportData";
+exports.QRCodeUrl = "https://www.lohoabc.cn";
 exports.WechatLoginUrl = "https://www.lohosoft.cn/api/abc/wechat/login/report";
 exports.apiRootUrl = "https://www.lohosoft.cn/api/abc/";
 exports.apiAllWordsUrl = "all_words";

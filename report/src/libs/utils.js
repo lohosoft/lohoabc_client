@@ -10,7 +10,7 @@ function check() {
 	console.log("checking with url : ", url);
 	// qwest.setDefaultDataType("json");
 	qwest
-		.get(url, null, { timeout: Config.apiGetTimeout })
+		.get(url)
 		.then(function(xhr, response) {
 			// ok
 			console.log("ok with response : ", response);
@@ -31,7 +31,8 @@ function check() {
 					MyError.handle(Config.ErrCodeUnknown);
 				}
 			} else if (response.status === "ok") {
-				MyHandle.showReportDiv(response.data);
+				// MyHandle.showReportDiv();
+				MyHandle.prepareReportData(response.data);
 			} else {
 				// unknown error
 				MyError.handle(Config.ErrCodeUnknown);
@@ -40,7 +41,7 @@ function check() {
 		.catch(function(e, xhr, response) {
 			// error beyond connection timeout
 			console.log(e, xhr);
-			MyError.handle(Config.ErrCodeApiConnectionTimeout, url);
+			// MyError.handle(Config.ErrCodeApiConnectionTimeout, url);
 		});
 }
 
